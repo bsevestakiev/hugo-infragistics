@@ -210,7 +210,7 @@ return [{
 - Body:
   ```json
   {
-    "model": "qwen2.5:14b",
+    "model": "gpt-oss:20b",
     "system": "{{ $json.system_prompt }}",
     "prompt": "{{ $json.user_prompt }}",
     "stream": false
@@ -291,5 +291,5 @@ return [{
 | Node 4 returns empty | `content/ja/` doesn't exist yet — the JA tree will be empty, which is fine; check filter logic |
 | Ollama returns extra text | Add instruction to system prompt: "Do not wrap output in code fences or backticks" |
 | GitHub 422 on Node 10 | File already exists — need to add `sha` field (only needed for updates, not first run) |
-| Ollama timeout | Increase HTTP Request timeout; or switch to a smaller model like `qwen2.5:7b` |
+| Ollama timeout | Increase HTTP Request timeout in n8n to 300000ms |
 | Base64 encoding issues | Ensure Node 9 uses `utf-8` encoding explicitly |
