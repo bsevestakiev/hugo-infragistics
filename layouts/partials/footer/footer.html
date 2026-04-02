@@ -1,0 +1,76 @@
+{{- $lang := site.Language.Lang -}}
+{{- $footerNav := index site.Data.footernav $lang -}}
+{{- $social := index site.Data.menu.social $lang -}}
+{{- $legal := index site.Data.menu.legal $lang -}}
+
+<footer role="contentinfo" id="footer">
+  <div class="container">
+
+    {{/* Social icons — centered at top */}}
+    {{- with $social }}
+      <div class="footer-social-row">
+        <ul class="nav nav-social footer-social">
+          {{- range .links }}
+            <li class="{{ lower (safeHTML .title) }}">
+              {{- partial "nav/link.html" (dict "link" . "span" true) -}}
+            </li>
+          {{- end }}
+        </ul>
+      </div>
+    {{- end }}
+
+    {{/* Nav columns */}}
+    {{- with $footerNav }}
+      <div class="footer-top">
+        {{- range .columns }}
+          <div class="footer-nav-col">
+            <p class="nav-title">{{ .title }}</p>
+            <ul class="nav nav-secondary">
+              {{- range .links }}
+                <li>
+                  <a href="{{ .url | safeURL }}"
+                    {{- if .blank }} target="_blank" rel="noopener"{{ end }}
+                    class="nav-link">{{ .title }}</a>
+                </li>
+              {{- end }}
+            </ul>
+          </div>
+        {{- end }}
+      </div>
+    {{- end }}
+
+    {{/* Newsletter subscription band */}}
+    <div class="footer-newsletter">
+      <p class="footer-newsletter-label">Stay up to date — get the latest news and releases in your inbox.</p>
+      <form class="footer-newsletter-form" action="#" method="post" novalidate>
+        <div class="input-group">
+          <input
+            type="email"
+            name="email"
+            class="form-control"
+            placeholder="Enter your email address"
+            aria-label="Email address"
+            required
+          >
+          <button class="btn btn-primary" type="submit">Subscribe</button>
+        </div>
+      </form>
+    </div>
+
+    {{/* Bottom bar: legal + copyright */}}
+    <div class="footer-bottom">
+      {{- with $legal }}
+        <ul class="nav nav-legal">
+          {{- range .links }}
+            <li>
+              <a href="{{ .url | safeURL }}" class="nav-link">{{ .title }}</a>
+            </li>
+          {{- end }}
+        </ul>
+      {{- end }}
+
+      <p class="footer-copy">© {{ now.Year }} Infragistics, Inc. All Rights Reserved.</p>
+    </div>
+
+  </div>
+</footer>

@@ -1,0 +1,95 @@
+{{- $id := printf "lt-block-%d" (.index | default 0) -}}
+<section class="block-logo-testimonials {{- with .background }} block-bg{{ end }}" id="{{ $id }}">
+  <div class="container">
+
+    {{ partial "blocks/heading.html" . }}
+
+    <div class="lt-grid">
+      {{- range $i, $item := .items }}
+        <button
+          class="lt-logo"
+          type="button"
+          aria-expanded="false"
+          aria-controls="{{ $id }}-panel"
+          data-lt="{{ $i }}"
+        >
+          {{- with $item.logo }}
+            {{- partial "commons/image.html" (dict "src" .src "alt" (.title | default "")) -}}
+          {{- end }}
+        </button>
+
+        {{/* Hidden template holding each testimonial's markup */}}
+        <template id="{{ $id }}-tpl-{{ $i }}">
+          <div class="lt-inner">
+            {{- with $item.author }}{{- with .image }}
+              <div class="lt-avatar">
+                {{- partial "commons/image.html" (dict "src" .src "alt" ($item.author.name | default "")) -}}
+              </div>
+            {{- end }}{{- end }}
+            <div class="lt-body">
+              {{- with $item.description }}
+                <p class="lt-description">{{ . }}</p>
+              {{- end }}
+              {{- with $item.quote }}
+                <blockquote>"{{ . }}"</blockquote>
+              {{- end }}
+              {{- with $item.author }}
+                <p class="lt-attribution">
+                  {{- with .name }}<strong>{{ . }}</strong>{{ end -}}
+                  {{- with .role }}, <span>{{ . }}</span>{{ end -}}
+                </p>
+              {{- end }}
+              {{- with $item.cta }}
+                <a href="{{ .url | safeURL }}" class="btn btn-primary btn-sm">{{ .text }}</a>
+              {{- end }}
+            </div>
+          </div>
+        </template>
+      {{- end }}
+    </div>
+
+    <div class="lt-panel" id="{{ $id }}-panel" role="region" aria-live="polite"></div>
+
+  </div>
+</section>
+
+<script>
+(function () {
+  var id     = '{{ $id }}';
+  var section = document.getElementById(id);
+  var logos   = Array.from(section.querySelectorAll('.lt-logo'));
+  var panel   = document.getElementById(id + '-panel');
+  var active  = -1;
+
+  logos.forEach(function (btn, i) {
+    btn.addEventListener('click', function () {
+      active === i ? close() : open(i);
+    });
+  });
+
+  function open(i) {
+    if (active >= 0) deactivate(active);
+    var tpl = document.getElementById(id + '-tpl-' + i);
+    panel.innerHTML = '';
+    panel.appendChild(tpl.content.cloneNode(true));
+    logos[i].classList.add('is-active');
+    logos[i].setAttribute('aria-expanded', 'true');
+    panel.classList.add('is-open');
+    active = i;
+  }
+
+  function close() {
+    deactivate(active);
+    panel.classList.remove('is-open');
+    panel.addEventListener('transitionend', function () {
+      if (!panel.classList.contains('is-open')) panel.innerHTML = '';
+    }, { once: true });
+    active = -1;
+  }
+
+  function deactivate(i) {
+    logos[i].classList.remove('is-active');
+    logos[i].setAttribute('aria-expanded', 'false');
+  }
+}());
+</script>

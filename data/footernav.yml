@@ -1,0 +1,66 @@
+en:
+  columns:
+    - title: Products
+      links:
+        - title: Design & Development
+          url: /en/products/design-development/
+        - title: UX Pros
+          url: /en/products/ux-pros/
+        - title: Embedded Analytics
+          url: /en/products/reveal/
+        - title: Work Management
+          url: /en/products/slingshot/
+        - title: View All
+          url: /en/products/
+        - title: Free Trials
+          url: /en/free-downloads/
+    - title: Open-Source Components
+      links:
+        - title: Angular
+          url: https://github.com/IgniteUI/igniteui-angular
+          blank: true
+        - title: Blazor
+          url: https://github.com/IgniteUI/igniteui-blazor
+          blank: true
+        - title: React
+          url: https://github.com/IgniteUI/igniteui-react
+          blank: true
+        - title: Web Components
+          url: https://github.com/IgniteUI/igniteui-webcomponents
+          blank: true
+    - title: Learn & Support
+      links:
+        - title: Help & API Docs
+          url: /en/docs/
+        - title: Blogs
+          url: /en/blog/
+        - title: Technical Support Chat
+          url: /en/support/chat/
+        - title: Forums
+          url: /en/community/forums/
+        - title: Submit a Request
+          url: /en/support/submit/
+        - title: Service Health
+          url: /en/support/service-health/
+    - title: My Account
+      links:
+        - title: Manage My Subscriptions
+          url: /en/account/subscriptions/
+        - title: Support Requests
+          url: /en/account/support/
+        - title: Angular Compare
+          url: /en/compare/angular/
+        - title: Blazor Compare
+          url: /en/compare/blazor/
+    - title: Corporate
+      links:
+        - title: About Us
+          url: /en/company/
+        - title: Careers
+          url: /en/careers/
+        - title: Legal
+          url: /en/legal-mentions/
+        - title: News & Events
+          url: /en/news/
+        - title: Partners
+          url: /en/partners/

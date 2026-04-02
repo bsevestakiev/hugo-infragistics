@@ -1,1 +1,6 @@
 _merge: deep
+
+params:
+  languageSwitcher: true
+  logo:
+    header: /assets/images/logo.svg

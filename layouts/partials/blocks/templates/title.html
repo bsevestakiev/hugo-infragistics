@@ -1,0 +1,15 @@
+{{- $block := . -}}
+{{- $heading := .heading -}}
+{{- with .cycling_words -}}
+  {{- $words := . -}}
+  {{- $inner := "<span>" -}}
+  {{- range $words }}{{- $inner = printf "%s<i>%s</i>" $inner . -}}{{ end -}}
+  {{- with index $words 0 }}{{- $inner = printf "%s<i>%s</i>" $inner . -}}{{ end -}}
+  {{- $inner = printf "%s</span>" $inner -}}
+  {{- $span := printf "<span>%s</span>" $inner -}}
+  {{- $newTitle := replace $heading.title "%s" $span -}}
+  {{- $heading = merge $heading (dict "title" $newTitle) -}}
+{{- end -}}
+<section class="block-title {{- with $block.background }} block-bg{{ end }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+  {{ partial "blocks/heading.html" (merge $block (dict "heading" $heading)) }}
+</section>
