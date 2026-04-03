@@ -99,7 +99,7 @@
       "position": [1560, 300],
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "const item = $input.first().json;\nconst rawContent = Buffer.from(item.content, 'base64').toString('utf-8');\nconst jaPath = item.path.replace('content/en/', 'content/ja/');\n\nconst systemPrompt = `You are a professional translator specializing in technical and marketing content.\nTranslate Hugo Markdown content from English to Japanese.\n\nRules:\n- Output ONLY the translated file. No explanations, no commentary, no code fences.\n- Preserve all YAML keys exactly as-is.\n- Preserve all Markdown formatting: headings, bold, italic, lists, line breaks.\n- Preserve all Hugo shortcodes exactly. Only translate text= and legend= attribute values. Never alter link=, src=, href=, or url= values.\n- Do NOT translate: dates, booleans, numbers, URLs, file paths, CSS values, component type names, proper names, brand names, company names.\n- Keep all YAML structure, indentation, and --- delimiters exactly as given.`;\n\nconst userPrompt = `Translate this Hugo content file from English to Japanese:\\n\\n${rawContent}`;\n\nreturn [{\n  json: {\n    ja_path: jaPath,\n    system_prompt: systemPrompt,\n    user_prompt: userPrompt\n  }\n}];"
+        "jsCode": "const item = $input.item.json;\nconst rawContent = Buffer.from(item.content, 'base64').toString('utf-8');\nconst jaPath = item.path.replace('content/en/', 'content/ja/');\n\nconst systemPrompt = `You are a professional translator specializing in technical and marketing content.\nTranslate Hugo Markdown content from English to Japanese.\n\nRules:\n- Output ONLY the translated file. No explanations, no commentary, no code fences.\n- Preserve all YAML keys exactly as-is.\n- Preserve all Markdown formatting: headings, bold, italic, lists, line breaks.\n- Preserve all Hugo shortcodes exactly. Only translate text= and legend= attribute values. Never alter link=, src=, href=, or url= values.\n- Do NOT translate: dates, booleans, numbers, URLs, file paths, CSS values, component type names, proper names, brand names, company names.\n- Keep all YAML structure, indentation, and --- delimiters exactly as given.`;\n\nconst userPrompt = `Translate this Hugo content file from English to Japanese:\\n\\n${rawContent}`;\n\nreturn [{\n  json: {\n    ja_path: jaPath,\n    system_prompt: systemPrompt,\n    user_prompt: userPrompt\n  }\n}];"
       }
     },
     {
@@ -128,7 +128,7 @@
       "position": [2000, 300],
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "const translated = $input.first().json.response;\nconst jaPath = $('Build Prompt').first().json.ja_path;\n\nconst encoded = Buffer.from(translated, 'utf-8').toString('base64');\n\nreturn [{\n  json: {\n    ja_path: jaPath,\n    encoded_content: encoded,\n    commit_message: `translate: ${jaPath}`\n  }\n}];"
+        "jsCode": "const translated = $input.item.json.response;\nconst jaPath = $('Build Prompt').item.json.ja_path;\n\nconst encoded = Buffer.from(translated, 'utf-8').toString('base64');\n\nreturn [{\n  json: {\n    ja_path: jaPath,\n    encoded_content: encoded,\n    commit_message: `translate: ${jaPath}`\n  }\n}];"
       }
     },
     {
@@ -171,8 +171,8 @@
     },
     "Loop Items": {
       "main": [
-        [{"node": "Get EN Content", "type": "main", "index": 0}],
-        []
+        [],
+        [{"node": "Get EN Content", "type": "main", "index": 0}]
       ]
     },
     "Get EN Content": {
