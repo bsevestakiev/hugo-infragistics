@@ -49,7 +49,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const enTree = $('Get EN Tree').first().json.tree;\nconst jaTree = $('Get JA Tree').first().json.tree;\n\nconst jaPaths = new Set(\n  jaTree.filter(f => f.type === 'blob').map(f => f.path)\n);\n\nconst missing = enTree\n  .filter(f =>\n    f.type === 'blob' &&\n    f.path.startsWith('content/en/') &&\n    f.path.endsWith('.md')\n  )\n  .filter(f => {\n    const jaPath = f.path.replace('content/en/', 'content/ja/');\n    return !jaPaths.has(jaPath);\n  })\n  .map(f => ({\n    json: {\n      en_path: f.path,\n      ja_path: f.path.replace('content/en/', 'content/ja/')\n    }\n  }));\n\nreturn missing;"
+        "jsCode": "const enTree = $('Get EN Tree').first().json.tree;\nconst jaTree = $('Get JA Tree').first().json.tree;\n\nconst jaPaths = new Set(\n  jaTree.filter(f => f.type === 'blob').map(f => f.path)\n);\n\nconst missing = enTree\n  .filter(f =>\n    f.type === 'blob' &&\n    f.path.startsWith('content/en/') &&\n    f.path.endsWith('.md')\n  )\n  .filter(f => {\n    const jaPath = f.path.replace('content/en/', 'content/ja/');\n    return !jaPaths.has(jaPath);\n  })\n  .map(f => ({\n    json: {\n      en_path: f.path,\n      ja_path: f.path.replace('content/en/', 'content/ja/')\n    }\n  }));\n\nif (missing.length === 0) {\n  return [{ json: { status: 'nothing to translate' } }];\n}\n\nreturn missing;"
       },
       "id": "7accd636-7225-4e88-a83f-d1a186dd56d9",
       "name": "Find Missing",
@@ -59,13 +59,41 @@
     },
     {
       "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "cond-1",
+              "leftValue": "={{ $json.en_path }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "c1d2e3f4-a5b6-7890-cdef-123456789abc",
+      "name": "Has Files",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [896, 0]
+    },
+    {
+      "parameters": {
         "options": {}
       },
       "id": "405f75c2-5a86-4515-b66f-58a5de286e37",
       "name": "Loop Items",
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
-      "position": [880, 0]
+      "position": [1120, -120]
     },
     {
       "parameters": {
@@ -83,7 +111,7 @@
       "name": "Trigger Build",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4,
-      "position": [1104, 200],
+      "position": [1120, 160],
       "credentials": {
         "httpHeaderAuth": {
           "id": "532C8TxzIvLkFBqK",
@@ -102,7 +130,7 @@
       "name": "Get EN Content",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4,
-      "position": [1104, 0],
+      "position": [1344, -120],
       "credentials": {
         "httpHeaderAuth": {
           "id": "532C8TxzIvLkFBqK",
@@ -119,7 +147,7 @@
       "name": "Build Prompt",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [1328, 0]
+      "position": [1568, -120]
     },
     {
       "parameters": {
@@ -137,7 +165,7 @@
       "name": "Call Ollama",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4,
-      "position": [1552, 0]
+      "position": [1792, -120]
     },
     {
       "parameters": {
@@ -148,7 +176,7 @@
       "name": "Encode Output",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [1760, 0]
+      "position": [2016, -120]
     },
     {
       "parameters": {
@@ -166,7 +194,7 @@
       "name": "Create JA File",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4,
-      "position": [1984, 0],
+      "position": [2240, -120],
       "credentials": {
         "httpHeaderAuth": {
           "id": "532C8TxzIvLkFBqK",
@@ -194,7 +222,13 @@
     },
     "Find Missing": {
       "main": [
-        [{"node": "Loop Items", "type": "main", "index": 0}]
+        [{"node": "Has Files", "type": "main", "index": 0}]
+      ]
+    },
+    "Has Files": {
+      "main": [
+        [{"node": "Loop Items", "type": "main", "index": 0}],
+        [{"node": "Trigger Build", "type": "main", "index": 0}]
       ]
     },
     "Loop Items": {
