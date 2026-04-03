@@ -2,81 +2,72 @@
   "name": "Hugo EN→JA Translation",
   "nodes": [
     {
-      "id": "node-1",
+      "parameters": {},
+      "id": "1a5a97e4-cb02-4bfb-a559-413e7536f92f",
       "name": "Manual Trigger",
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
-      "position": [240, 300],
-      "parameters": {}
+      "position": [0, 0]
     },
     {
-      "id": "node-2",
+      "parameters": {
+        "url": "https://api.github.com/repos/bsevestakiev/hugo-infragistics/git/trees/main?recursive=1",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "d95ee66b-ced5-4f46-a4be-5e3d95d06de4",
       "name": "Get EN Tree",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4,
-      "position": [460, 300],
+      "position": [224, 0],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "532C8TxzIvLkFBqK",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
       "parameters": {
-        "method": "GET",
         "url": "https://api.github.com/repos/bsevestakiev/hugo-infragistics/git/trees/main?recursive=1",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "httpHeaderAuth",
         "options": {}
       },
-      "credentials": {
-        "httpHeaderAuth": {
-          "id": "1",
-          "name": "GitHub Token"
-        }
-      }
-    },
-    {
-      "id": "node-3",
+      "id": "adb1737a-f1ef-4c2f-9c7e-d49b7e5a5e10",
       "name": "Get JA Tree",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4,
-      "position": [680, 300],
-      "parameters": {
-        "method": "GET",
-        "url": "https://api.github.com/repos/bsevestakiev/hugo-infragistics/git/trees/main?recursive=1",
-        "authentication": "predefinedCredentialType",
-        "nodeCredentialType": "httpHeaderAuth",
-        "options": {}
-      },
+      "position": [448, 0],
       "credentials": {
         "httpHeaderAuth": {
-          "id": "1",
-          "name": "GitHub Token"
+          "id": "532C8TxzIvLkFBqK",
+          "name": "Header Auth account"
         }
       }
     },
     {
-      "id": "node-4",
+      "parameters": {
+        "jsCode": "const enTree = $('Get EN Tree').first().json.tree;\nconst jaTree = $('Get JA Tree').first().json.tree;\n\nconst jaPaths = new Set(\n  jaTree.filter(f => f.type === 'blob').map(f => f.path)\n);\n\nconst missing = enTree\n  .filter(f =>\n    f.type === 'blob' &&\n    f.path.startsWith('content/en/') &&\n    f.path.endsWith('.md')\n  )\n  .filter(f => {\n    const jaPath = f.path.replace('content/en/', 'content/ja/');\n    return !jaPaths.has(jaPath);\n  })\n  .map(f => ({\n    json: {\n      en_path: f.path,\n      ja_path: f.path.replace('content/en/', 'content/ja/')\n    }\n  }));\n\nreturn missing;"
+      },
+      "id": "7accd636-7225-4e88-a83f-d1a186dd56d9",
       "name": "Find Missing",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [900, 300],
-      "parameters": {
-        "mode": "runOnceForAllItems",
-        "jsCode": "const enTree = $('Get EN Tree').first().json.tree;\nconst jaTree = $('Get JA Tree').first().json.tree;\n\nconst jaPaths = new Set(\n  jaTree.filter(f => f.type === 'blob').map(f => f.path)\n);\n\nconst missing = enTree\n  .filter(f =>\n    f.type === 'blob' &&\n    f.path.startsWith('content/en/') &&\n    f.path.endsWith('.md')\n  )\n  .filter(f => {\n    const jaPath = f.path.replace('content/en/', 'content/ja/');\n    return !jaPaths.has(jaPath);\n  })\n  .map(f => ({\n    json: {\n      en_path: f.path,\n      ja_path: f.path.replace('content/en/', 'content/ja/')\n    }\n  }));\n\nreturn missing;"
-      }
+      "position": [672, 0]
     },
     {
-      "id": "node-5",
+      "parameters": {
+        "options": {}
+      },
+      "id": "405f75c2-5a86-4515-b66f-58a5de286e37",
       "name": "Loop Items",
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
-      "position": [1120, 300],
-      "parameters": {
-        "batchSize": 1,
-        "options": {}
-      }
+      "position": [880, 0]
     },
     {
-      "id": "node-11",
-      "name": "Trigger Build",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4,
-      "position": [1340, 500],
       "parameters": {
         "method": "POST",
         "url": "https://api.github.com/repos/bsevestakiev/hugo-infragistics/dispatches",
@@ -88,50 +79,49 @@
         "body": "{\"event_type\": \"translation-complete\"}",
         "options": {}
       },
+      "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "name": "Trigger Build",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1104, 200],
       "credentials": {
         "httpHeaderAuth": {
-          "id": "1",
-          "name": "GitHub Token"
+          "id": "532C8TxzIvLkFBqK",
+          "name": "Header Auth account"
         }
       }
     },
     {
-      "id": "node-6",
-      "name": "Get EN Content",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4,
-      "position": [1340, 300],
       "parameters": {
-        "method": "GET",
         "url": "=https://api.github.com/repos/bsevestakiev/hugo-infragistics/contents/{{$json[\"en_path\"]}}",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "httpHeaderAuth",
         "options": {}
       },
+      "id": "0d072619-4597-4e22-8d57-e97e95c07d99",
+      "name": "Get EN Content",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1104, 0],
       "credentials": {
         "httpHeaderAuth": {
-          "id": "1",
-          "name": "GitHub Token"
+          "id": "532C8TxzIvLkFBqK",
+          "name": "Header Auth account"
         }
       }
     },
     {
-      "id": "node-7",
-      "name": "Build Prompt",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [1560, 300],
       "parameters": {
         "mode": "runOnceForEachItem",
         "jsCode": "const rawContent = Buffer.from($json.content, 'base64').toString('utf-8');\nconst jaPath = $json.path.replace('content/en/', 'content/ja/');\n\nconst systemPrompt = [\n  'You are a professional translator.',\n  'Translate Hugo Markdown content from English to Japanese.',\n  'Rules:',\n  '- Output ONLY the translated file. No explanations, no code fences.',\n  '- Preserve all YAML keys exactly as-is.',\n  '- Preserve all Markdown formatting.',\n  '- Preserve all Hugo shortcodes exactly.',\n  '- Do NOT translate: dates, booleans, numbers, URLs, file paths, proper names, brand names.',\n  '- Keep all YAML structure and frontmatter delimiters exactly as given.'\n].join('\\n');\n\nconst userPrompt = 'Translate this Hugo file from English to Japanese:\\n\\n' + rawContent;\n\nreturn {\n  json: {\n    ja_path: jaPath,\n    system_prompt: systemPrompt,\n    user_prompt: userPrompt\n  }\n};"
-      }
+      },
+      "id": "38563cdf-604f-49a8-9a72-3c084b6f050c",
+      "name": "Build Prompt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1328, 0]
     },
     {
-      "id": "node-8",
-      "name": "Call Ollama",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4,
-      "position": [1780, 300],
       "parameters": {
         "method": "POST",
         "url": "http://10.20.14.98:11434/api/generate",
@@ -142,25 +132,25 @@
         "options": {
           "timeout": 300000
         }
-      }
+      },
+      "id": "b9caf2fd-8d65-46e0-ae9f-63e2de85ff81",
+      "name": "Call Ollama",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1552, 0]
     },
     {
-      "id": "node-9",
-      "name": "Encode Output",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [2000, 300],
       "parameters": {
         "mode": "runOnceForEachItem",
         "jsCode": "const translated = $json.response;\nconst enPath = $('Get EN Content').item.json.path;\nconst jaPath = enPath.replace('content/en/', 'content/ja/');\n\nconst encoded = Buffer.from(translated, 'utf-8').toString('base64');\n\nreturn {\n  json: {\n    ja_path: jaPath,\n    encoded_content: encoded,\n    commit_message: 'translate: ' + jaPath\n  }\n};"
-      }
+      },
+      "id": "2557b37e-6056-4c1c-ab2a-437a6462145a",
+      "name": "Encode Output",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1760, 0]
     },
     {
-      "id": "node-10",
-      "name": "Create JA File",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4,
-      "position": [2220, 300],
       "parameters": {
         "method": "PUT",
         "url": "=https://api.github.com/repos/bsevestakiev/hugo-infragistics/contents/{{$json[\"ja_path\"]}}",
@@ -172,26 +162,40 @@
         "body": "={{ JSON.stringify({ message: $json.commit_message, content: $json.encoded_content, branch: 'main' }) }}",
         "options": {}
       },
+      "id": "f0345cf6-72af-4dde-9125-94cde4613576",
+      "name": "Create JA File",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1984, 0],
       "credentials": {
         "httpHeaderAuth": {
-          "id": "1",
-          "name": "GitHub Token"
+          "id": "532C8TxzIvLkFBqK",
+          "name": "Header Auth account"
         }
       }
     }
   ],
+  "pinData": {},
   "connections": {
     "Manual Trigger": {
-      "main": [[{"node": "Get EN Tree", "type": "main", "index": 0}]]
+      "main": [
+        [{"node": "Get EN Tree", "type": "main", "index": 0}]
+      ]
     },
     "Get EN Tree": {
-      "main": [[{"node": "Get JA Tree", "type": "main", "index": 0}]]
+      "main": [
+        [{"node": "Get JA Tree", "type": "main", "index": 0}]
+      ]
     },
     "Get JA Tree": {
-      "main": [[{"node": "Find Missing", "type": "main", "index": 0}]]
+      "main": [
+        [{"node": "Find Missing", "type": "main", "index": 0}]
+      ]
     },
     "Find Missing": {
-      "main": [[{"node": "Loop Items", "type": "main", "index": 0}]]
+      "main": [
+        [{"node": "Loop Items", "type": "main", "index": 0}]
+      ]
     },
     "Loop Items": {
       "main": [
@@ -200,23 +204,41 @@
       ]
     },
     "Get EN Content": {
-      "main": [[{"node": "Build Prompt", "type": "main", "index": 0}]]
+      "main": [
+        [{"node": "Build Prompt", "type": "main", "index": 0}]
+      ]
     },
     "Build Prompt": {
-      "main": [[{"node": "Call Ollama", "type": "main", "index": 0}]]
+      "main": [
+        [{"node": "Call Ollama", "type": "main", "index": 0}]
+      ]
     },
     "Call Ollama": {
-      "main": [[{"node": "Encode Output", "type": "main", "index": 0}]]
+      "main": [
+        [{"node": "Encode Output", "type": "main", "index": 0}]
+      ]
     },
     "Encode Output": {
-      "main": [[{"node": "Create JA File", "type": "main", "index": 0}]]
+      "main": [
+        [{"node": "Create JA File", "type": "main", "index": 0}]
+      ]
     },
     "Create JA File": {
-      "main": [[{"node": "Loop Items", "type": "main", "index": 0}]]
+      "main": [
+        [{"node": "Loop Items", "type": "main", "index": 0}]
+      ]
     }
   },
   "active": false,
   "settings": {
-    "executionOrder": "v1"
-  }
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "b3ff88ee-b686-4069-af10-7be883e77ec4",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "13ee1f96dd461ebebfcfa725bdce21962716b32c73d673d789698e8e2fd027d9"
+  },
+  "id": "ZcENNn0L2e4KmhIT",
+  "tags": []
 }
