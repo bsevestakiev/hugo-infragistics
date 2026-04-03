@@ -57,7 +57,7 @@
       "position": [900, 300],
       "parameters": {
         "mode": "runOnceForAllItems",
-        "jsCode": "const enTree = $('Get EN Tree').first().json.tree;\nconst jaTree = $('Get JA Tree').first().json.tree;\n\nconst jaPaths = new Set(\n  jaTree.filter(f => f.type === 'blob').map(f => f.path)\n);\n\nconst missing = enTree\n  .filter(f =>\n    f.type === 'blob' &&\n    f.path.startsWith('content/en/') &&\n    f.path.endsWith('.md')\n  )\n  .filter(f => {\n    const jaPath = f.path.replace('content/en/', 'content/ja/');\n    return !jaPaths.has(jaPath);\n  })\n  .map(f => ({\n    json: {\n      en_path: f.path,\n      ja_path: f.path.replace('content/en/', 'content/ja/')\n    }\n  }));\n\nif (missing.length === 0) {\n  return [{ json: { status: 'nothing to translate' } }];\n}\n\nreturn missing;"
+        "jsCode": "const enTree = $('Get EN Tree').first().json.tree;\nconst jaTree = $('Get JA Tree').first().json.tree;\n\nconst jaPaths = new Set(\n  jaTree.filter(f => f.type === 'blob').map(f => f.path)\n);\n\nconst missing = enTree\n  .filter(f =>\n    f.type === 'blob' &&\n    f.path.startsWith('content/en/') &&\n    f.path.endsWith('.md')\n  )\n  .filter(f => {\n    const jaPath = f.path.replace('content/en/', 'content/ja/');\n    return !jaPaths.has(jaPath);\n  })\n  .map(f => ({\n    json: {\n      en_path: f.path,\n      ja_path: f.path.replace('content/en/', 'content/ja/')\n    }\n  }));\n\nreturn missing;"
       }
     },
     {
