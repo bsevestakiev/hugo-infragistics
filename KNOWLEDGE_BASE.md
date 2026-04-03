@@ -306,6 +306,119 @@ No CMS is configured. Removed all Sveltia/DecapCMS setup due to complexity of HT
 
 ---
 
+## n8n Translation Workflow
+
+The translation pipeline is implemented as an n8n workflow (`n8n_workflow.json`).
+Full node-by-node documentation is in `N8N_WORKFLOW_SIMPLE.md`.
+Full field-by-field translation rules are in `N8N_TRANSLATION_PLAN.md`.
+
+### Infrastructure
+
+| Component | Location |
+|---|---|
+| n8n | Separate LAN machine, accessed via `https://n8n-it.infragistics.local` |
+| Ollama | `http://10.20.14.98:11434` |
+| Model | `gpt-oss:20b` (tested, good Japanese quality) |
+| GitHub repo | `bsevestakiev/hugo-infragistics` |
+| Deployment | Netlify (auto) + GitHub Actions (via repository_dispatch) |
+
+### Workflow Flow
+
+```
+Manual Trigger
+  → Get EN Tree (GitHub API)
+  → Get JA Tree (GitHub API)
+  → Find Missing (Code node — compares trees, outputs untranslated files)
+  → Has Files (IF node)
+    ├─ True  → Loop Items → Get EN Content → Build Prompt → Call Ollama
+    │                     → Encode Output → Create JA File → (loop back)
+    │          Loop Done Branch → Trigger Build
+    └─ False → Trigger Build (nothing to translate, still rebuild)
+  → Trigger Build (POST repository_dispatch to GitHub)
+  → GitHub Actions runs deploy.yml → yarn build → S3 → CloudFront
+```
+
+### n8n Credential Setup
+
+- Type: `Header Auth`
+- Header **Name** field: `Authorization` (this is the HTTP header name — not the credential label)
+- Header **Value** field: `Bearer <PAT>`
+- The credential label (display name in n8n) can be anything
+
+### nginx WebSocket Config (required for n8n)
+
+Without these, clicking Execute drops the connection immediately:
+
+```nginx
+location / {
+    proxy_pass http://10.20.14.49:5678;
+    proxy_buffering off;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_read_timeout 3600s;
+    proxy_send_timeout 3600s;
+}
+```
+
+### Key n8n Code Node Rules
+
+- In `Run Once for Each Item` mode: use `$json` (not `$input.first().json`)
+- Return format: `return { json: { ... } }` — no array wrapper
+- In `Run Once for All Items` mode: use `$('NodeName').first().json`
+- Avoid template literals with backticks in Code nodes — use string array `.join()` or concatenation
+- Avoid `---` in strings — `--` is the JS decrement operator if quotes get corrupted on paste
+
+### Loop Items (Split In Batches v3) Output Order
+
+In n8n Split In Batches v3:
+- Output **0** = Done Branch (fires when all items processed)
+- Output **1** = Loop Branch (fires for each batch item)
+
+This is the opposite of what the n8n docs imply — wire accordingly.
+
+### Find Missing Logic
+
+Returns an array of `{ en_path, ja_path }` objects for files in `content/en/`
+that have no counterpart in `content/ja/`. When nothing is missing, returns
+`[{ json: { status: 'nothing to translate' } }]` so the IF node can route to
+Trigger Build without crashing downstream nodes.
+
+### GitHub Actions Trigger
+
+The deploy workflow uses `repository_dispatch` (not `push`) so it only fires
+when n8n explicitly calls it after translations complete:
+
+```
+POST https://api.github.com/repos/bsevestakiev/hugo-infragistics/dispatches
+{ "event_type": "translation-complete" }
+```
+
+Requires a PAT with `repo` scope in the Authorization header.
+
+### GitHub Actions Secrets Required
+
+| Secret | Purpose |
+|---|---|
+| `AWS_ACCESS_KEY_ID` | S3 deployment |
+| `AWS_SECRET_ACCESS_KEY` | S3 deployment |
+| `S3_BUCKET_NAME` | Target bucket for `hugo.infragistics.com` |
+| `CLOUDFRONT_DISTRIBUTION_ID` | Cache invalidation after deploy |
+
+### Translation — What Gets Translated
+
+Translate: `title`, `description`, `text`, `surtitle`, `quote`, `role`, `alt`,
+`cta.text`, `ctas[].text`, `cycling_words[]`, `heading.title`, `heading.text`
+
+Never translate: `date`, `url`, `type`, `layout`, `src`, `draft`, `isPage`,
+`isIndex`, `column`, `section`, `count`, `weight`, `direction`, `author.name`,
+`author.title` (company names), `logo.title` (brand names), carousel params
+
+Hugo shortcodes: preserve syntax exactly, only translate `text=` and `legend=`
+attribute values.
+
+---
+
 ## Translation Watcher (Phase 5 — Not Yet Implemented)
 
 A Python script (`scripts/translate_watcher.py`) will:
