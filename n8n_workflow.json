@@ -72,6 +72,30 @@
       }
     },
     {
+      "id": "node-11",
+      "name": "Trigger Build",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1340, 500],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.github.com/repos/bsevestakiev/hugo-infragistics/dispatches",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "{\"event_type\": \"translation-complete\"}",
+        "options": {}
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "1",
+          "name": "GitHub Token"
+        }
+      }
+    },
+    {
       "id": "node-6",
       "name": "Get EN Content",
       "type": "n8n-nodes-base.httpRequest",
@@ -99,7 +123,7 @@
       "position": [1560, 300],
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "const rawContent = Buffer.from($json.content, 'base64').toString('utf-8');\nconst jaPath = $json.path.replace('content/en/', 'content/ja/');\n\nconst systemPrompt = 'You are a professional translator specializing in technical and marketing content.\\n' +\n  'Translate Hugo Markdown content from English to Japanese.\\n\\n' +\n  'Rules:\\n' +\n  '- Output ONLY the translated file. No explanations, no commentary, no code fences.\\n' +\n  '- Preserve all YAML keys exactly as-is.\\n' +\n  '- Preserve all Markdown formatting: headings, bold, italic, lists, line breaks.\\n' +\n  '- Preserve all Hugo shortcodes exactly. Only translate text= and legend= attribute values. Never alter link=, src=, href=, or url= values.\\n' +\n  '- Do NOT translate: dates, booleans, numbers, URLs, file paths, CSS values, component type names, proper names, brand names, company names.\\n' +\n  '- Keep all YAML structure, indentation, and --- delimiters exactly as given.';\n\nconst userPrompt = 'Translate this Hugo content file from English to Japanese:\\n\\n' + rawContent;\n\nreturn {\n  json: {\n    ja_path: jaPath,\n    system_prompt: systemPrompt,\n    user_prompt: userPrompt\n  }\n};"
+        "jsCode": "const rawContent = Buffer.from($json.content, 'base64').toString('utf-8');\nconst jaPath = $json.path.replace('content/en/', 'content/ja/');\n\nconst systemPrompt = [\n  'You are a professional translator.',\n  'Translate Hugo Markdown content from English to Japanese.',\n  'Rules:',\n  '- Output ONLY the translated file. No explanations, no code fences.',\n  '- Preserve all YAML keys exactly as-is.',\n  '- Preserve all Markdown formatting.',\n  '- Preserve all Hugo shortcodes exactly.',\n  '- Do NOT translate: dates, booleans, numbers, URLs, file paths, proper names, brand names.',\n  '- Keep all YAML structure and frontmatter delimiters exactly as given.'\n].join('\\n');\n\nconst userPrompt = 'Translate this Hugo file from English to Japanese:\\n\\n' + rawContent;\n\nreturn {\n  json: {\n    ja_path: jaPath,\n    system_prompt: systemPrompt,\n    user_prompt: userPrompt\n  }\n};"
       }
     },
     {
@@ -128,7 +152,7 @@
       "position": [2000, 300],
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "const translated = $json.response;\nconst jaPath = $('Build Prompt').first().json.ja_path;\n\nconst encoded = Buffer.from(translated, 'utf-8').toString('base64');\n\nreturn {\n  json: {\n    ja_path: jaPath,\n    encoded_content: encoded,\n    commit_message: 'translate: ' + jaPath\n  }\n};"
+        "jsCode": "const translated = $json.response;\nconst enPath = $('Get EN Content').item.json.path;\nconst jaPath = enPath.replace('content/en/', 'content/ja/');\n\nconst encoded = Buffer.from(translated, 'utf-8').toString('base64');\n\nreturn {\n  json: {\n    ja_path: jaPath,\n    encoded_content: encoded,\n    commit_message: 'translate: ' + jaPath\n  }\n};"
       }
     },
     {
@@ -171,7 +195,7 @@
     },
     "Loop Items": {
       "main": [
-        [],
+        [{"node": "Trigger Build", "type": "main", "index": 0}],
         [{"node": "Get EN Content", "type": "main", "index": 0}]
       ]
     },
