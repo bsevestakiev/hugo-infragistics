@@ -419,6 +419,43 @@ attribute values.
 
 ---
 
+## Excluding Pages from Translation
+
+Two approaches — pick one or combine them.
+
+### Option 1 — Hardcoded exclusion list in n8n (simple)
+
+In the **Find Missing** code node, add a list of paths to skip:
+
+```js
+const excluded = [
+  'content/en/legal-mentions/_index.md',
+  'content/en/sitemap/_index.md',
+];
+
+// skip excluded files in your filter loop:
+if (excluded.includes(enFile.path)) continue;
+```
+
+Best for: a small, stable set of pages that will never need translation.
+
+### Option 2 — `no_translate` frontmatter flag (flexible)
+
+Add to any page you want skipped:
+
+```yaml
+---
+title: "Some Page"
+no_translate: true
+---
+```
+
+Then in the **Find Missing** code node, fetch each EN file's content and skip it if the flag is present. Since content is already fetched later in the loop, the hardcoded list is simpler to implement first.
+
+Best for: giving content editors per-page control without touching n8n.
+
+---
+
 ## Translation Watcher (Phase 5 — Not Yet Implemented)
 
 A Python script (`scripts/translate_watcher.py`) will:
