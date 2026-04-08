@@ -266,13 +266,7 @@ $mega-bundle-bg: #f0f6ff
 $mega-bundle-border: #dbeafe
 $nav-height: 56px
 
-// Header is the positioning context for mega panels (position: absolute)
-header[role="banner"]
-  position: relative
-
-// Dropdown panels are relative to their nav item
-#mega-nav .has-dropdown
-  position: relative
+// Panels are position:fixed — coordinates set by JS, immune to CSS cascade
 
 // Panels hidden by default
 .mega-panel,
@@ -303,8 +297,7 @@ header[role="banner"]
 // ── Mega panel (full-width) ───────────────────────────────────────────
 
 .mega-panel
-  position: absolute
-  top: 100%
+  position: fixed
   left: 0
   right: 0
   background: $mega-bg
@@ -407,9 +400,7 @@ header[role="banner"]
 // ── Simple dropdown panel ─────────────────────────────────────────────
 
 .dropdown-panel
-  position: absolute
-  top: 100%
-  left: 0
+  position: fixed
   min-width: 260px
   background: $mega-bg
   border: 1px solid $mega-border
@@ -502,10 +493,13 @@ header[role="banner"]
   .topbar
     display: none
 
-  .mega-panel
-    position: static
+  .mega-panel,
+  .dropdown-panel
+    position: static !important
     border: none
     box-shadow: none
+
+  .mega-panel
     padding: 0.5rem 0 0.5rem 1rem
     border-top: 1px solid $mega-border
 
@@ -518,10 +512,6 @@ header[role="banner"]
     width: 100%
 
   .dropdown-panel
-    position: static
-    border: none
-    border-radius: 0
-    box-shadow: none
     padding: 0.25rem 0 0.25rem 1rem
     border-top: 1px solid $mega-border
 

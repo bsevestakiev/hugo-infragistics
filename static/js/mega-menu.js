@@ -6,6 +6,31 @@
 
   var items = Array.prototype.slice.call(nav.querySelectorAll('.has-mega, .has-dropdown'));
 
+  // ── position panels via JS (position:fixed, immune to CSS cascade) ────────
+
+  function positionPanel(item) {
+    var panel = getPanel(item);
+    var toggle = getToggle(item);
+    if (!panel || !toggle) return;
+
+    var btnRect = toggle.getBoundingClientRect();
+
+    if (panel.classList.contains('mega-panel')) {
+      // Full-width: stretch across viewport, top flush under the header row
+      var header = document.querySelector('header[role="banner"]');
+      var top = header ? header.getBoundingClientRect().bottom : btnRect.bottom;
+      panel.style.top = top + 'px';
+      // left/right already 0 via CSS
+
+    } else {
+      // Dropdown: align left edge with button, top flush under it
+      panel.style.top  = btnRect.bottom + 'px';
+      panel.style.left = btnRect.left   + 'px';
+    }
+  }
+
+  // ── helpers ───────────────────────────────────────────────────────────────
+
   function getPanel(item) {
     return item.querySelector('.mega-panel, .dropdown-panel');
   }
@@ -15,6 +40,7 @@
   }
 
   function openItem(item) {
+    positionPanel(item);
     var panel = getPanel(item);
     var toggle = getToggle(item);
     item.classList.add('is-open');
@@ -34,16 +60,12 @@
     return window.innerWidth < 992;
   }
 
-  // ── Desktop: aria-expanded tracks CSS :hover via mouseenter/leave ─────────
-  // Visual open/close is handled entirely by CSS :hover — no JS timing issues.
+  // ── Desktop: aria tracks CSS :hover; JS only sets coordinates ────────────
 
   items.forEach(function (item) {
     item.addEventListener('mouseenter', function () {
       if (isMobile()) return;
-      // Close any sibling open from mobile click
-      items.forEach(function (other) {
-        if (other !== item) closeItem(other);
-      });
+      items.forEach(function (other) { if (other !== item) closeItem(other); });
       openItem(item);
     });
 
@@ -53,7 +75,7 @@
     });
   });
 
-  // ── Mobile: click to toggle ───────────────────────────────────────────────
+  // ── Mobile: click toggle ──────────────────────────────────────────────────
 
   items.forEach(function (item) {
     var toggle = getToggle(item);
@@ -73,11 +95,7 @@
   nav.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {
       var open = nav.querySelector('.has-mega.is-open, .has-dropdown.is-open');
-      if (open) {
-        closeItem(open);
-        var toggle = getToggle(open);
-        if (toggle) toggle.focus();
-      }
+      if (open) { closeItem(open); var t = getToggle(open); if (t) t.focus(); }
     }
   });
 
@@ -99,6 +117,13 @@
   document.addEventListener('click', function (e) {
     if (!isMobile()) return;
     if (!nav.contains(e.target)) items.forEach(closeItem);
+  });
+
+  // ── Reposition on resize ──────────────────────────────────────────────────
+
+  window.addEventListener('resize', function () {
+    var open = nav.querySelector('.has-mega.is-open, .has-dropdown.is-open');
+    if (open) positionPanel(open);
   });
 
 })();
