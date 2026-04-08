@@ -1,0 +1,51 @@
+{{- $lang := site.Language.Lang -}}
+{{- $globalContacts := "Global Contacts" -}}
+{{- $myAccount := "My Account" -}}
+{{- $signIn := "Sign In" -}}
+{{- $register := "Register" -}}
+{{- if eq $lang "ja" -}}
+  {{- $globalContacts = "グローバルお問い合わせ" -}}
+  {{- $myAccount = "マイアカウント" -}}
+  {{- $signIn = "ログイン" -}}
+  {{- $register = "新規登録" -}}
+{{- end -}}
+
+<div class="topbar" role="complementary" aria-label="Utility navigation">
+  <div class="container topbar-inner">
+    <div class="topbar-left">
+      <a href="tel:18002318588" class="topbar-link">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        1-800-231-8588
+      </a>
+      <a href="/company/contact-us/" class="topbar-link">{{ $globalContacts }}</a>
+    </div>
+    <div class="topbar-right">
+      <a href="/login/" class="topbar-link topbar-account">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        {{ $myAccount }}
+      </a>
+      <span class="topbar-divider">|</span>
+      <a href="/login/" class="topbar-link">{{ $signIn }}</a>
+      <span class="topbar-divider">/</span>
+      <a href="/register/" class="topbar-link">{{ $register }}</a>
+    </div>
+  </div>
+</div>
+
+<header role="banner">
+  <nav role="navigation" aria-label="{{ i18n "navigation.main" }}">
+    <div class="container">
+      {{ partialCached "header/logo.html" . }}
+      {{ partialCached "commons/search/button.html" . }}
+      {{ if site.Data.menu.primary }}
+        {{ partialCached "header/button.html" . }}
+        {{ partial "header/main-menu.html" . }}
+      {{ end }}
+    </div>
+  </nav>
+</header>

@@ -6,3 +6,12 @@ en:
       url: /en/legal-mentions/
     - title: Sitemap
       url: /en/sitemap/
+
+ja:
+  links:
+    - title: プライバシーポリシー
+      url: /ja/privacy-policy/
+    - title: 法的情報
+      url: /ja/legal-mentions/
+    - title: サイトマップ
+      url: /ja/sitemap/

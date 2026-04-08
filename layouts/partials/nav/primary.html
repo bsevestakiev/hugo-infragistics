@@ -1,0 +1,69 @@
+{{- $currentPage := .RelPermalink -}}
+{{- $menu := site.Data.menu.primary -}}
+{{- with index $menu .Site.Language.Lang -}}
+  {{- $menu = . -}}
+{{- end -}}
+{{- with $menu }}
+  <ul class="nav nav-primary" id="mega-nav">
+    {{ range .links }}
+      {{- $hasMega := .mega -}}
+      {{- $hasDropdown := and (not .mega) .items -}}
+      {{- $hasClass := slice "nav-item" -}}
+      {{- if $hasMega }}{{ $hasClass = $hasClass | append "has-mega" }}{{ end -}}
+      {{- if $hasDropdown }}{{ $hasClass = $hasClass | append "has-dropdown" }}{{ end -}}
+      <li class="{{ delimit $hasClass ` ` }}">
+        {{- if .url }}
+          <a class="nav-link{{ if eq $currentPage .url }} active{{ end }}" href="{{ .url }}">{{ .title }}</a>
+        {{- else }}
+          <button class="nav-link nav-toggle" aria-expanded="false" aria-haspopup="true">
+            {{ .title }}
+            <svg class="nav-chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true">
+              <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        {{- end }}
+
+        {{- if $hasMega }}
+          <div class="mega-panel" role="region" aria-hidden="true">
+            <div class="mega-inner container">
+              {{- range .groups }}
+                <div class="mega-group{{ if .bundle }} mega-group--bundle{{ end }}">
+                  <p class="mega-group-heading">{{ .heading }}</p>
+                  <ul class="mega-group-list">
+                    {{- range .items }}
+                      <li class="mega-item{{ if .bundle }} mega-item--bundle{{ end }}">
+                        <a href="{{ .url | default "#" }}" class="mega-link">
+                          <span class="mega-link-title">
+                            {{ .title }}
+                            {{- with .badge }}<span class="mega-badge">{{ . }}</span>{{ end }}
+                          </span>
+                          {{- with .price }}<span class="mega-price">{{ . }}</span>{{ end }}
+                          {{- with .description }}<span class="mega-desc">{{ . }}</span>{{ end }}
+                        </a>
+                      </li>
+                    {{- end }}
+                  </ul>
+                </div>
+              {{- end }}
+            </div>
+          </div>
+        {{- else if $hasDropdown }}
+          <ul class="dropdown-panel" role="menu" aria-hidden="true">
+            {{- range .items }}
+              <li role="none">
+                <a href="{{ .url | default "#" }}" class="dropdown-item{{ if eq $currentPage .url }} active{{ end }}" role="menuitem">
+                  <span class="dropdown-item-title">
+                    {{ .title }}
+                    {{- with .badge }}<span class="mega-badge">{{ . }}</span>{{ end }}
+                  </span>
+                  {{- with .description }}<span class="dropdown-item-desc">{{ . }}</span>{{ end }}
+                </a>
+              </li>
+            {{- end }}
+          </ul>
+        {{- end }}
+      </li>
+    {{ end }}
+  </ul>
+  <div class="mega-overlay" id="mega-overlay" aria-hidden="true"></div>
+{{ end }}

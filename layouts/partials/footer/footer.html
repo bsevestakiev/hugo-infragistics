@@ -40,19 +40,31 @@
     {{- end }}
 
     {{/* Newsletter subscription band */}}
+    {{- $newsletterLabel := "Stay up to date — get the latest news and releases in your inbox." -}}
+    {{- $newsletterPlaceholder := "Enter your email address" -}}
+    {{- $newsletterAriaLabel := "Email address" -}}
+    {{- $newsletterButton := "Subscribe" -}}
+    {{- $copyright := printf "© %d Infragistics, Inc. All Rights Reserved." now.Year -}}
+    {{- if eq $lang "ja" -}}
+      {{- $newsletterLabel = "最新情報をお届けします — ニュースやリリース情報をメールでお受け取りください。" -}}
+      {{- $newsletterPlaceholder = "メールアドレスを入力" -}}
+      {{- $newsletterAriaLabel = "メールアドレス" -}}
+      {{- $newsletterButton = "登録する" -}}
+      {{- $copyright = printf "© %d Infragistics, Inc. All Rights Reserved." now.Year -}}
+    {{- end -}}
     <div class="footer-newsletter">
-      <p class="footer-newsletter-label">Stay up to date — get the latest news and releases in your inbox.</p>
+      <p class="footer-newsletter-label">{{ $newsletterLabel }}</p>
       <form class="footer-newsletter-form" action="#" method="post" novalidate>
         <div class="input-group">
           <input
             type="email"
             name="email"
             class="form-control"
-            placeholder="Enter your email address"
-            aria-label="Email address"
+            placeholder="{{ $newsletterPlaceholder }}"
+            aria-label="{{ $newsletterAriaLabel }}"
             required
           >
-          <button class="btn btn-primary" type="submit">Subscribe</button>
+          <button class="btn btn-primary" type="submit">{{ $newsletterButton }}</button>
         </div>
       </form>
     </div>
@@ -69,7 +81,7 @@
         </ul>
       {{- end }}
 
-      <p class="footer-copy">© {{ now.Year }} Infragistics, Inc. All Rights Reserved.</p>
+      <p class="footer-copy">{{ $copyright }}</p>
     </div>
 
   </div>

@@ -64,3 +64,70 @@ en:
           url: /en/news/
         - title: Partners
           url: /en/partners/
+
+ja:
+  columns:
+    - title: 製品
+      links:
+        - title: デザイン & 開発
+          url: /ja/products/design-development/
+        - title: UXプロフェッショナル
+          url: /ja/products/ux-pros/
+        - title: 組み込みアナリティクス
+          url: /ja/products/reveal/
+        - title: ワーク管理
+          url: /ja/products/slingshot/
+        - title: すべて見る
+          url: /ja/products/
+        - title: 無料トライアル
+          url: /ja/free-downloads/
+    - title: オープンソースコンポーネント
+      links:
+        - title: Angular
+          url: https://github.com/IgniteUI/igniteui-angular
+          blank: true
+        - title: Blazor
+          url: https://github.com/IgniteUI/igniteui-blazor
+          blank: true
+        - title: React
+          url: https://github.com/IgniteUI/igniteui-react
+          blank: true
+        - title: Web Components
+          url: https://github.com/IgniteUI/igniteui-webcomponents
+          blank: true
+    - title: 学習 & サポート
+      links:
+        - title: ヘルプ & API ドキュメント
+          url: /ja/docs/
+        - title: ブログ
+          url: /ja/blog/
+        - title: テクニカルサポートチャット
+          url: /ja/support/chat/
+        - title: フォーラム
+          url: /ja/community/forums/
+        - title: リクエストの送信
+          url: /ja/support/submit/
+        - title: サービス稼働状況
+          url: /ja/support/service-health/
+    - title: マイアカウント
+      links:
+        - title: サブスクリプション管理
+          url: /ja/account/subscriptions/
+        - title: サポートリクエスト
+          url: /ja/account/support/
+        - title: Angular 比較
+          url: /ja/compare/angular/
+        - title: Blazor 比較
+          url: /ja/compare/blazor/
+    - title: 企業情報
+      links:
+        - title: 会社概要
+          url: /ja/company/
+        - title: 採用情報
+          url: /ja/careers/
+        - title: 法的情報
+          url: /ja/legal-mentions/
+        - title: ニュース & イベント
+          url: /ja/news/
+        - title: パートナー
+          url: /ja/partners/
