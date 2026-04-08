@@ -287,12 +287,12 @@ $nav-height: 56px
     visibility: visible
     pointer-events: auto
 
-// Mobile: JS class toggles panel
+/// Mobile: JS class toggles panel via display (not visibility — static elements
+// with visibility:hidden still occupy space and create gaps in the menu)
 @media (max-width: 991px)
   .has-mega.is-open .mega-panel,
   .has-dropdown.is-open .dropdown-panel
-    visibility: visible
-    pointer-events: auto
+    display: block
 
 // ── Mega panel (full-width) ───────────────────────────────────────────
 
@@ -482,12 +482,7 @@ $nav-height: 56px
   visibility: hidden
   pointer-events: none
 
-// ── has-dropdown: relative positioning for panel ──────────────────────
-
-#mega-nav .has-dropdown
-  position: relative
-
-// ── Mobile ────────────────────────────────────────────────────────────
+/// ── Mobile ────────────────────────────────────────────────────────────
 
 @media (max-width: 991px)
   .topbar
@@ -496,6 +491,9 @@ $nav-height: 56px
   .mega-panel,
   .dropdown-panel
     position: static !important
+    visibility: visible !important
+    pointer-events: auto !important
+    display: none
     border: none
     box-shadow: none
 
