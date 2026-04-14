@@ -22,7 +22,6 @@ blocks:
   # 2. Heading with subheading
   - type: title
     heading:
-      surtitle: "30+ years of simple and beautiful experiences"
       title: "With the Right Tools, You Can Create Amazing Experiences."
       text: "Our passion for craftsmanship comes from the desire to deliver simple and beautiful experiences that drive productivity across your digital product teams, and that enable data-driven, high-performing teams across your entire organization. Built with care and attention to every small detail, from our learned expertise over the last three decades."
 
@@ -88,35 +87,47 @@ blocks:
         title: "Logo 12"
 
   # 4b. Customer stories carousel
-  - type: testimonials
-    layout: carousel
+  - type: stories-carousel
     carousel:
       params:
-        type: loop
+        type: fade
+        rewind: true
         autoplay: true
-        interval: 5000
+        interval: 6000
         pauseOnHover: true
         arrows: false
     items:
-      - quote: "Slingshot transformed the way our teams collaborate across departments. We have full visibility into every project in real time."
-        author:
-          title: "Cibao Meat Products"
-      - quote: "Infragistics gave us the analytics components we needed to ship pharmacy insights 3× faster than building from scratch."
-        author:
-          title: "Scriptly"
-      - quote: "We modernised a legacy industrial monitoring system to Angular in record time thanks to Ignite UI."
-        author:
-          title: "Bentley Nevada"
-      - quote: "Infragistics helped us migrate a critical trading platform to a modern stack without disrupting daily operations."
-        author:
-          title: "UK Investment Bank"
+      - title: "Slingshot Transforms How Cibao Meat Products Collaborates Across Departments"
+        text: "With Slingshot, Cibao gained full real-time visibility into every project across the organisation, eliminating silos and accelerating decision-making."
+        cta:
+          text: "Read the Story"
+          url: "/stories/cibao/"
+        image:
+          src: "images/home/slingshot.webp"
+          alt: "Cibao Meat Products team collaboration"
+      - title: "Scriptly Helps Pharmacies Identify Trends in Real Time with Reveal"
+        text: "With Reveal built into Scriptly, pharmacies can access up-to-the-minute data, spot trends in patients, prescriptions, and customize dashboards to see relevant data."
+        cta:
+          text: "Read the Story"
+          url: "/stories/scriptly/"
+        image:
+          src: "images/home/analytics-dashboard.webp"
+          alt: "Scriptly pharmacy analytics"
+      - title: "Bentley Nevada Modernises Industrial Monitoring with Ignite UI for Angular"
+        text: "Faced with ageing desktop infrastructure, Bentley Nevada's team rebuilt their critical monitoring platform with Ignite UI for Angular in record time."
+        cta:
+          text: "Read the Story"
+          url: "/stories/bentley-nevada/"
+        image:
+          src: "images/home/ui-dashboard.webp"
+          alt: "Bentley Nevada industrial monitoring dashboard"
 
   # 5. Latest news
   - type: latest
     section: blog
-    count: 4
+    count: 3
     heading:
-      title: "Stay Current with the Latest News and Features"
+      title: "Ideas That Inspire. Discover What's New."
     footing:
       ctas:
         - text: "See all news and articles"
@@ -172,6 +183,7 @@ blocks:
   # 7. Webinar on-demand
   - type: editorial
     direction: rtl
+    background_color: "#3F51B5"
     surtitle: "On-Demand Webinar"
     title: "Watch Our Latest Webinar On-Demand"
     text: "Stay ahead of the curve with expert insights from our latest webinar. Learn how leading teams are using Infragistics tools to build faster, smarter, and more beautiful applications — at your own pace, whenever you're ready."

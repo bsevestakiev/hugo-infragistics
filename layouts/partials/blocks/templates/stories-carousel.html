@@ -1,0 +1,35 @@
+{{- $carousel_params := dict "type" "loop" "autoplay" true "interval" 6000 "pauseOnHover" true "arrows" false -}}
+{{- with .carousel -}}
+  {{- with .params -}}
+    {{- $carousel_params = . -}}
+  {{- end -}}
+{{- end -}}
+{{- if .items }}
+<section class="block-stories-carousel" {{ partial "func/SetAnim.html" (dict "element" "block") }}>
+  <div class="splide carousel js-carousel stories-splide" data-splide="{{ $carousel_params | jsonify }}">
+    <div class="splide__track">
+      <ul class="splide__list">
+        {{- range .items }}
+        <li class="splide__slide story-slide">
+          <div class="story-slide-inner">
+            <div class="story-slide-content">
+              <h2>{{ .title }}</h2>
+              {{- with .text }}<p>{{ . }}</p>{{ end }}
+              {{- with .cta }}
+              <a href="{{ .url }}" class="story-cta">{{ .text }}</a>
+              {{- end }}
+            </div>
+            {{- with .image }}
+            <div class="story-slide-image">
+              <img src="{{ .src | relURL }}" alt="{{ .alt }}" loading="lazy">
+            </div>
+            {{- end }}
+          </div>
+        </li>
+        {{- end }}
+      </ul>
+    </div>
+    <ul class="splide__pagination story-pagination"></ul>
+  </div>
+</section>
+{{- end }}

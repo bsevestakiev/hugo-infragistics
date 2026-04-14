@@ -1,10 +1,99 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap')
+// Aktiv Grotesk by Dalton Maag — place font files in /static/fonts/
+@font-face
+  font-family: 'Aktiv Grotesk'
+  src: url('/fonts/AktivGrotesk-Regular.woff2') format('woff2'), url('/fonts/AktivGrotesk-Regular.woff') format('woff')
+  font-weight: 400
+  font-style: normal
+  font-display: swap
+
+@font-face
+  font-family: 'Aktiv Grotesk'
+  src: url('/fonts/AktivGrotesk-Thin.woff2') format('woff2'), url('/fonts/AktivGrotesk-Thin.woff') format('woff')
+  font-weight: 200
+  font-style: normal
+  font-display: swap
 
 html
   scrollbar-gutter: stable
 
 body
-  font-family: 'Noto Sans JP', sans-serif
+  font-family: 'Aktiv Grotesk', 'Inter', sans-serif
+  font-weight: 400
+
+// H1 uses Aktiv Grotesk Thin (weight 200)
+h1
+  font-weight: 200
+
+// H2: bold for sections; hero title block overrides to thin
+h2
+  font-weight: 600
+
+.block-title.block-bg h2
+  font-weight: 200
+
+// H3–H6 use Aktiv Grotesk Regular (weight 400)
+h3, h4, h5, h6
+  font-weight: 400
+
+// =====================================================================
+// Top webinar banner — green with navy accent
+// =====================================================================
+
+.banner
+  position: relative
+
+.banner-primary
+  background-color: #27ae60 !important
+  border-color: #27ae60 !important
+  color: #ffffff !important
+  --bs-alert-color: #ffffff
+  --bs-alert-bg: #27ae60
+  --bs-alert-border-color: #27ae60
+
+  a, .alert-link
+    color: #ffffff !important
+    font-weight: 600
+    text-decoration: underline
+
+.banner-close
+  position: absolute
+  right: 1rem
+  top: 50%
+  transform: translateY(-50%)
+  background: none
+  border: none
+  color: #ffffff
+  cursor: pointer
+  display: flex
+  align-items: center
+  justify-content: center
+  opacity: 0.8
+  padding: 0.25rem
+
+  &:hover
+    opacity: 1
+
+// =====================================================================
+// Editorial block with custom background color (e.g. webinar #3F51B5)
+// =====================================================================
+
+.block-editorial-custom-bg
+  color: #ffffff
+
+  h1, h2, h3, h4, h5, h6
+    color: #ffffff
+
+  p, .surtitle
+    color: rgba(255, 255, 255, 0.85)
+
+  .btn-primary
+    background-color: #ffffff
+    border-color: #ffffff
+    color: #3F51B5
+    &:hover, &:focus
+      background-color: rgba(255, 255, 255, 0.9)
+      border-color: rgba(255, 255, 255, 0.9)
+      color: #3F51B5
 
 // Cycling animated words in the title block heading
 .block-title h2 > span
@@ -193,46 +282,52 @@ header[role="banner"] > nav
 main
   padding-top: 0 !important
 
-// Nav hover — pill highlight
-header nav .nav-primary a:not(.btn)
-  border-radius: 6px
-  padding: 0.4rem 0.75rem
-  text-decoration: none !important
-  transition: background-color 0.2s ease, color 0.2s ease
+// Nav items — underline on hover/active
+header nav .nav-primary
+  .nav-link:not(.btn),
+  .nav-toggle
+    background: none !important
+    border-radius: 0
+    border-bottom: 2px solid transparent
+    font-size: 0.9rem
+    font-weight: 200
+    padding: 0.5rem 0.6rem
+    text-decoration: none !important
+    transition: color 0.15s ease, border-color 0.15s ease
 
-  &:hover, &:focus-visible
-    background-color: #e8f4ff
-    color: #0099ff
+    &:hover, &:focus-visible
+      background: none !important
+      color: #0099ff
+      border-bottom-color: transparent
+      text-decoration: none !important
 
-  &.active
-    color: #0099ff
-    font-weight: 600
-    background-color: #e8f4ff
+    &.active
+      color: #0099ff
+      font-weight: 400
+      background: none !important
+      border-bottom-color: transparent
+      text-decoration: none !important
 
 // =====================================================================
 // Top bar
 // =====================================================================
 
 .topbar
-  background-color: #0a2045
-  color: rgba(255, 255, 255, 0.75)
+  background-color: #ffffff
+  color: rgba(0, 0, 0, 0.6)
   font-size: 0.78rem
   padding: 0.35rem 0
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08)
 
 .topbar-inner
   display: flex
   align-items: center
-  justify-content: space-between
-  gap: 1rem
-
-.topbar-left, .topbar-right
-  display: flex
-  align-items: center
-  gap: 0.75rem
+  justify-content: flex-end
+  gap: 1.25rem
   flex-wrap: wrap
 
 .topbar-link
-  color: rgba(255, 255, 255, 0.75)
+  color: rgba(0, 0, 0, 0.6)
   text-decoration: none
   display: inline-flex
   align-items: center
@@ -240,13 +335,13 @@ header nav .nav-primary a:not(.btn)
   transition: color 0.15s ease
 
   &:hover
-    color: #ffffff
+    color: #0099ff
 
 .topbar-divider
-  color: rgba(255, 255, 255, 0.3)
+  color: rgba(0, 0, 0, 0.25)
 
 .topbar-account svg
-  opacity: 0.8
+  opacity: 0.6
 
 // =====================================================================
 // Mega-menu & dropdown panels
@@ -341,20 +436,21 @@ $nav-height: 56px
   gap: 0.15rem
   padding: 0.35rem 0.5rem
   border-radius: 6px
-  text-decoration: none
+  text-decoration: none !important
   color: $mega-link-color
   transition: background-color 0.15s ease, color 0.15s ease
 
   &:hover
     background-color: #f0f6ff
     color: $mega-link-hover
+    text-decoration: none !important
 
     .mega-link-title
       color: $mega-link-hover
 
 .mega-link-title
   font-size: 0.875rem
-  font-weight: 500
+  font-weight: 600
   color: $mega-link-color
   display: flex
   align-items: center
@@ -362,16 +458,24 @@ $nav-height: 56px
   transition: color 0.15s ease
 
 .mega-price
-  font-size: 0.8rem
+  display: inline-block
+  font-size: 0.72rem
   font-weight: 700
-  color: $mega-price-color
-  margin-top: 0.1rem
+  color: #ffffff
+  background: #27ae60
+  border-radius: 3px
+  padding: 0.1rem 0.4rem
+  margin-top: 0.25rem
 
 .mega-desc
-  font-size: 0.78rem
+  font-size: 0.73rem
   color: $mega-desc-color
-  line-height: 1.4
-  margin-top: 0.1rem
+  line-height: 1.35
+  margin-top: 0.2rem
+  display: -webkit-box
+  -webkit-line-clamp: 2
+  -webkit-box-orient: vertical
+  overflow: hidden
 
 .mega-badge
   display: inline-block
@@ -389,9 +493,9 @@ $nav-height: 56px
 .mega-group--bundle .mega-link
   background: $mega-bundle-bg
   border: 1px solid $mega-bundle-border
-  padding: 0.75rem
-  margin-bottom: 0.5rem
-  border-radius: 8px
+  padding: 0.5rem 0.65rem
+  margin-bottom: 0.4rem
+  border-radius: 6px
 
   &:hover
     background: #dbeafe
@@ -417,53 +521,59 @@ $nav-height: 56px
   gap: 0.1rem
   padding: 0.6rem 1rem
   color: $mega-link-color
-  text-decoration: none
+  text-decoration: none !important
   border-radius: 0
   transition: background-color 0.15s ease
 
   &:hover, &:focus
     background-color: #f0f6ff
     color: $mega-link-hover
+    text-decoration: none !important
 
   &.active
     color: $mega-link-hover
 
 .dropdown-item-title
   font-size: 0.875rem
-  font-weight: 500
+  font-weight: 600
   display: flex
   align-items: center
   gap: 0.4rem
 
 .dropdown-item-desc
-  font-size: 0.78rem
+  font-size: 0.775rem
   color: $mega-desc-color
-  line-height: 1.4
+  line-height: 1.45
+  margin-top: 0.15rem
 
 // ── Nav toggle button ─────────────────────────────────────────────────
 
 .nav-toggle
   background: none
   border: none
+  border-bottom: 2px solid transparent
   cursor: pointer
   display: inline-flex
   align-items: center
   gap: 0.3rem
-  padding: 0.4rem 0.75rem
-  border-radius: 6px
-  font-size: inherit
+  padding: 0.5rem 0.6rem
+  border-radius: 0
+  font-size: 0.9rem
   font-family: inherit
+  font-weight: 200
   color: inherit
-  transition: background-color 0.2s ease, color 0.2s ease
+  transition: color 0.15s ease, border-color 0.15s ease
 
   &:hover, &:focus-visible
-    background-color: #e8f4ff
+    background: none
     color: #0099ff
+    border-bottom-color: transparent
     outline: none
 
   &[aria-expanded="true"]
-    background-color: #e8f4ff
+    background: none
     color: #0099ff
+    border-bottom-color: transparent
 
 .nav-chevron
   transition: transform 0.2s ease
@@ -484,9 +594,46 @@ $nav-height: 56px
 
 /// ── Mobile ────────────────────────────────────────────────────────────
 
-@media (max-width: 991px)
+@media (max-width: 991.98px)
   .topbar
     display: none
+
+  // Override theme's centered mobile nav
+  .main-menu
+    overflow-x: hidden
+
+    .nav
+      align-items: flex-start !important
+      text-align: left !important
+      width: 100%
+
+      li
+        font-size: 1rem !important
+        width: 100%
+        max-width: 100%
+
+      ul li
+        font-size: 0.9rem !important
+
+    .nav-link,
+    .nav-toggle,
+    .mega-link,
+    .dropdown-item
+      white-space: normal !important
+      overflow-wrap: break-word !important
+      word-break: break-word !important
+      max-width: 100%
+
+  // All nav items left-aligned, no underline treatment
+  header nav .nav-primary
+    .nav-link:not(.btn),
+    .nav-toggle
+      text-align: left
+      width: 100%
+      border-bottom: none !important
+      font-size: 1rem
+      font-weight: 400
+      padding: 0.6rem 1rem
 
   .mega-panel,
   .dropdown-panel
@@ -498,20 +645,30 @@ $nav-height: 56px
     box-shadow: none
 
   .mega-panel
-    padding: 0.5rem 0 0.5rem 1rem
+    padding: 0.25rem 0 0.25rem 1rem
     border-top: 1px solid $mega-border
 
   .mega-inner
     flex-direction: column
-    gap: 1rem
+    gap: 0.75rem
 
   .mega-group
     flex: none
     width: 100%
 
+  // Bundle cards: no card style on mobile, just plain links
+  .mega-group--bundle .mega-link
+    background: none
+    border: none
+    padding: 0.35rem 0.5rem
+    margin-bottom: 0
+
   .dropdown-panel
     padding: 0.25rem 0 0.25rem 1rem
     border-top: 1px solid $mega-border
+
+  .dropdown-item
+    padding: 0.5rem 0.75rem
 
   .mega-overlay
     display: none
@@ -666,3 +823,181 @@ footer[role="contentinfo"]
   // Hide the Hugolify credit
   .hugolify
     display: none
+
+// =====================================================================
+// Latest news block — image-first cards matching real site
+// =====================================================================
+
+.block-latest
+  .pages
+    row-gap: 2rem !important
+
+  // Each card
+  .page
+    display: flex
+    flex-direction: column
+    background: #ffffff
+    border: 1px solid rgba(0, 0, 0, 0.08)
+    border-radius: 8px
+    overflow: hidden
+    height: 100%
+    transition: box-shadow 0.2s ease
+
+    &:hover
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1)
+
+    // Image on top — force it above content
+    .media
+      order: -1
+      width: 100%
+      aspect-ratio: 16 / 9
+      overflow: hidden
+      background: #e8f0f8
+      flex-shrink: 0
+
+      img
+        width: 100%
+        height: 100%
+        object-fit: cover
+        display: block
+
+    // Text content area
+    .content
+      display: flex
+      flex-direction: column
+      padding: 1.25rem 1.25rem 1rem
+      flex: 1
+      text-decoration: none !important
+      color: inherit
+
+      h3, .title
+        font-size: 1rem
+        font-weight: 700
+        color: #111111
+        line-height: 1.4
+        margin-bottom: 0.5rem
+
+      p, .description
+        font-size: 0.875rem
+        color: #555555
+        line-height: 1.55
+        flex: 1
+        margin-bottom: 0.75rem
+
+      .btn
+        align-self: flex-start
+        background: none !important
+        border: none !important
+        color: #0099ff !important
+        font-size: 0.875rem
+        font-weight: 600
+        padding: 0 !important
+        text-decoration: none !important
+
+        &:hover
+          color: #007acc !important
+          text-decoration: underline !important
+
+// =====================================================================
+// Logos block — bold heading text
+// =====================================================================
+
+.block-logos .heading p
+  font-weight: 700
+  color: #1a1a2e
+
+// =====================================================================
+// Stories carousel
+// =====================================================================
+
+.block-stories-carousel
+  overflow: hidden
+  margin: 0
+
+  .stories-splide
+    position: relative
+
+  .story-slide-inner
+    display: flex
+    height: 400px
+
+    @media (max-width: 767px)
+      flex-direction: column
+      height: auto
+
+  .story-slide-content
+    width: 45%
+    flex-shrink: 0
+    background: #3F51B5
+    color: #ffffff
+    padding: 3rem 3.5rem
+    display: flex
+    flex-direction: column
+    justify-content: center
+    gap: 1rem
+    position: relative
+
+    @media (max-width: 991px)
+      width: 55%
+      padding: 2rem 2.5rem
+
+    @media (max-width: 767px)
+      width: 100%
+      padding: 2rem
+
+    h2
+      font-size: 1.5rem
+      font-weight: 700
+      color: #ffffff
+      line-height: 1.3
+      margin: 0
+
+    p
+      font-size: 0.9rem
+      color: rgba(255, 255, 255, 0.85)
+      line-height: 1.6
+      margin: 0
+
+  .story-cta
+    color: #ffffff
+    font-size: 0.9rem
+    font-weight: 600
+    text-decoration: underline !important
+    text-underline-offset: 3px
+    align-self: flex-start
+
+    &:hover
+      color: rgba(255, 255, 255, 0.8)
+
+  .story-slide-image
+    flex: 1
+    overflow: hidden
+    min-height: 220px
+
+    img
+      width: 100%
+      height: 100%
+      object-fit: cover
+      display: block
+
+  // Pagination dots — bottom-left inside blue panel
+  .splide__pagination
+    position: absolute
+    bottom: 1.25rem
+    left: 3.5rem
+    justify-content: flex-start
+    padding: 0
+
+    @media (max-width: 991px)
+      left: 2.5rem
+
+    @media (max-width: 767px)
+      left: 2rem
+
+  .splide__pagination__page
+    background: rgba(255, 255, 255, 0.4)
+    opacity: 1
+
+    &.is-active
+      background: #ffffff
+      transform: scale(1.2)
