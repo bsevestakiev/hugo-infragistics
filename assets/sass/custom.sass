@@ -598,6 +598,15 @@ $nav-height: 56px
   visibility: hidden
   pointer-events: none
 
+// ── Narrow desktop (Chromebook range) ────────────────────────────────
+
+@media (min-width: 992px) and (max-width: 1399px)
+  header nav .nav-primary
+    .nav-link:not(.btn),
+    .nav-toggle
+      font-size: 0.8rem
+      padding: 0.5rem 0.4rem
+
 /// ── Mobile ────────────────────────────────────────────────────────────
 
 @media (max-width: 991.98px)
