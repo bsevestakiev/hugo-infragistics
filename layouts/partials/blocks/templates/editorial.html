@@ -1,8 +1,4 @@
-{{- $style := "" -}}
-{{- with .background_color -}}
-  {{- $style = printf "background-color: %s;" . -}}
-{{- end -}}
-<section class="block-editorial block-editorial-{{ .direction }}{{- with .background }} block-bg{{ end }}{{- with .background_color }} block-editorial-custom-bg{{ end }}" {{- if $style }} style="{{ $style }}"{{ end }} {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+<section class="block-editorial block-editorial-{{ .direction }}{{- with .background }} block-bg{{ end }}{{- with .background_color }} block-editorial-custom-bg{{ end }}"{{- with .background_color }} style="background-color: {{ . }};"{{- end }} {{- partial "func/SetAnim.html" (dict "element" "block") }}>
   {{ partial "blocks/templates/editorial/header.html" . }}
   {{ partial "blocks/templates/editorial/body.html" . }}
   {{ partial "blocks/templates/editorial/footer.html" . }}

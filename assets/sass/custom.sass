@@ -1,17 +1,17 @@
 // Aktiv Grotesk by Dalton Maag — place font files in /static/fonts/
 @font-face
   font-family: 'Aktiv Grotesk'
-  src: url('/fonts/AktivGrotesk-Regular.woff2') format('woff2'), url('/fonts/AktivGrotesk-Regular.woff') format('woff')
+  src: url('/fonts/AktivGrotesk-Regular.woff') format('woff')
   font-weight: 400
   font-style: normal
-  font-display: swap
+  font-display: block
 
 @font-face
   font-family: 'Aktiv Grotesk'
-  src: url('/fonts/AktivGrotesk-Thin.woff2') format('woff2'), url('/fonts/AktivGrotesk-Thin.woff') format('woff')
+  src: url('/fonts/AktivGrotesk-Thin.woff') format('woff')
   font-weight: 200
   font-style: normal
-  font-display: swap
+  font-display: block
 
 html
   scrollbar-gutter: stable
@@ -282,6 +282,12 @@ header[role="banner"] > nav
 main
   padding-top: 0 !important
 
+main:has(> .block-editorial-custom-bg:last-child)
+  padding-bottom: 0
+
+main > .block-editorial-custom-bg:last-child
+  padding-bottom: 5.6rem
+
 // Nav items — underline on hover/active
 header nav .nav-primary
   .nav-link:not(.btn),
@@ -289,23 +295,23 @@ header nav .nav-primary
     background: none !important
     border-radius: 0
     border-bottom: 2px solid transparent
-    font-size: 0.9rem
-    font-weight: 200
-    padding: 0.5rem 0.6rem
+    font-size: 0.95rem
+    font-weight: 400
+    padding: 0.5rem 0.75rem
     text-decoration: none !important
     transition: color 0.15s ease, border-color 0.15s ease
 
     &:hover, &:focus-visible
       background: none !important
       color: #0099ff
-      border-bottom-color: transparent
+      border-bottom-color: #0099ff
       text-decoration: none !important
 
     &.active
       color: #0099ff
-      font-weight: 400
+      font-weight: 600
       background: none !important
-      border-bottom-color: transparent
+      border-bottom-color: #0099ff
       text-decoration: none !important
 
 // =====================================================================
@@ -634,6 +640,7 @@ $nav-height: 56px
       font-size: 1rem
       font-weight: 400
       padding: 0.6rem 1rem
+      color: inherit
 
   .mega-panel,
   .dropdown-panel
@@ -899,8 +906,14 @@ footer[role="contentinfo"]
           text-decoration: underline !important
 
 // =====================================================================
-// Logos block — bold heading text
+// Logos block — bold heading text + tighter grid cells
 // =====================================================================
+
+.block-logos .logos
+  margin-top: 0 !important
+
+.block-logos .logos > div
+  margin-top: 0.1rem !important
 
 .block-logos .heading p
   font-weight: 700
