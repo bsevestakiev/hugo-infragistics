@@ -79,3 +79,81 @@ Pixel-perfect match of infragistics.com homepage UI — fonts, colours, nav, sec
 - Japanese (`content/ja/_index.md`) not yet updated to match EN changes
 - Mobile menu alignment: further testing may be needed at various breakpoints
 - Latest news card layout: verify renders correctly once blog images are added
+
+---
+
+# UI Polish Session — 2026-04-15
+
+## Goal
+Polish the homepage to closer match infragistics.com, fix rendering issues on Chromebook, and address visual bugs found during review.
+
+---
+
+## Changes Made
+
+### Font Flash (FOUT) Fix
+- **Problem:** Custom font (Aktiv Grotesk) was flashing — browser rendered fallback font first, then swapped.
+- **Root cause:** `@font-face` was referencing non-existent `.woff2` files (only `.woff` exist in `static/fonts/`), causing a wasted 404 round-trip before falling back. Plus `font-display: swap` shows fallback while loading.
+- **Fix:**
+  - Removed dead `.woff2` references from `@font-face` declarations in `custom.sass`
+  - Changed `font-display: swap` → `font-display: block` (hides text briefly instead of flashing fallback)
+  - Created `layouts/partials/head/preload.html` to preload both woff files before page renders
+- **Note:** If `.woff2` files are added later, update `@font-face` src and preload href/type accordingly
+
+### Nav Items — More Impactful
+- `font-weight: 200` → `400`
+- `font-size: 0.9rem` → `0.95rem`
+- `padding: 0.5rem 0.6rem` → `0.5rem 0.75rem`
+- Hover/active now shows blue `#0099ff` bottom border underline
+- Active state bumped to `font-weight: 600`
+
+### Chromebook Nav Fix (1366px)
+- Nav items were crunching at Chromebook resolution (1366×768)
+- Added responsive override for `992px–1399px`: `font-size: 0.8rem`, `padding: 0.5rem 0.4rem`
+- At 1400px+ the full desktop sizing applies
+
+### Root Font Size Pin
+- **Problem:** Chromebook browser default font size varies (can be 18–20px), making all `rem` values render larger than intended
+- **Fix:** Added `html { font-size: 16px }` to `custom.sass` — pins the rem base to 16px on all devices, matching infragistics.com behaviour
+
+### Webinar Editorial Block Background
+- **Problem:** `background_color: "#3F51B5"` in frontmatter had no effect — block rendered white
+- **Root cause:** Go template variable scoping bug — `$style = printf ...` inside a `with` block does not update the outer `$style` variable in Hugo's template engine
+- **Fix:** Rewrote `layouts/partials/blocks/templates/editorial.html` to use `{{- with .background_color }} style="background-color: {{ . }};"{{- end }}` inline — avoids the variable entirely
+- **Pattern to remember:** Never reassign outer-scope variables inside Hugo `with`/`if`/`range` blocks — use `with` directly in the output instead
+
+### White Strip Between Webinar Block and Footer
+- **Problem:** White gap visible between the blue editorial section and the navy footer
+- **Root cause:** `<main>` has `padding-bottom: 5.6rem` from the theme. The theme already handles this for `.block-bg` last-children via `main:has(> .block-bg:last-child) { padding-bottom: 0 }` but not for `.block-editorial-custom-bg`
+- **Fix:** Added matching `:has()` rules in `custom.sass`:
+  ```sass
+  main:has(> .block-editorial-custom-bg:last-child)
+    padding-bottom: 0
+  main > .block-editorial-custom-bg:last-child
+    padding-bottom: 5.6rem
+  ```
+
+### Logos Block Row Gap
+- **Problem:** Too much space between the two rows of logos
+- **Root cause:** CSS variable override (`--bs-gutter-y`) didn't win the cascade — theme bakes it into the same selector at same specificity
+- **Fix:** Directly override `margin-top` with `!important` on the grid container and cells:
+  ```sass
+  .block-logos .logos { margin-top: 0 !important }
+  .block-logos .logos > div { margin-top: 0.1rem !important }
+  ```
+
+### Mega Menu — Automated Testing Overflow
+- **Problem:** "Automated Testing Tools" group wrapping to a second row; long item titles overflowing
+- **Root cause:** Group headings had `text-transform: uppercase` (not matching real site); flex layout too rigid
+- **Fixes:**
+  - Removed `text-transform: uppercase` from `.mega-group-heading` — real site uses title case
+  - Reduced `gap`, `padding`, and font sizes to be more compact
+  - Kept `flex-wrap: wrap` (not `nowrap`) with sensible `flex-basis` values
+
+---
+
+## Known TODOs / Carry Forward
+- `custom.sass` is getting long (~1000 lines) — worth splitting into partials once design is stable (`_nav.sass`, `_mega-menu.sass`, `_blocks.sass` etc.)
+- Some `!important` flags in logos section are a smell — revisit with proper specificity when time allows
+- Mega menu still slightly tight at 1366px — may need further tuning once Chromebook feedback comes in
+- Demo apps on IIS: agreed strategy is static export → S3/CloudFront under `/demos/` prefix in same bucket as Hugo site. Use `--exclude "demos/*"` in Hugo deploy sync.

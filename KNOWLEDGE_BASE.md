@@ -273,6 +273,50 @@ Adjust the keyframe percentages based on how many `<i>` words you have (divide 1
 
 ---
 
+## Hugo Template Variable Scoping — Critical Gotcha
+
+**Never reassign outer-scope variables inside `with`/`if`/`range` blocks.**
+
+This silently fails — `$style` stays `""` outside the block:
+```html
+{{- $style := "" -}}
+{{- with .background_color -}}
+  {{- $style = printf "background-color: %s;" . -}}  ← does NOT update outer $style
+{{- end -}}
+```
+
+Instead, use `with` directly in the output:
+```html
+{{- with .background_color }} style="background-color: {{ . }};"{{- end }}
+```
+
+---
+
+## CSS Custom Property Overrides — Cascade Pitfall
+
+When the theme sets a CSS custom property (`--bs-gutter-y`, `--bs-aspect-ratio`) on the same selector as your override, the cascade order determines the winner — not `!important` on the variable. If the theme compiles its rule into the same specificity level, source order wins.
+
+**Reliable fix:** Override the actual computed property instead of the variable:
+```sass
+// Unreliable — may lose to same-specificity theme rule
+.block-logos .logos
+  --bs-gutter-y: 0.5rem
+
+// Reliable — directly overrides the rendered property
+.block-logos .logos > div
+  margin-top: 0.1rem !important
+```
+
+---
+
+## Font Setup — Aktiv Grotesk
+
+Only `.woff` files exist in `static/fonts/` (no `.woff2`). The `@font-face` declarations in `custom.sass` reference only `.woff`. If `.woff2` files are added later, update both `@font-face` src AND the preload hints in `layouts/partials/head/preload.html`.
+
+`font-display: block` is used (not `swap`) to avoid FOUT — combined with `<link rel="preload">` in `preload.html`, the font loads before first render.
+
+---
+
 ## Hugolify Module Architecture
 
 The project uses Hugo modules (not a local `/themes/` folder). All theme files are in the Hugo module cache at:
