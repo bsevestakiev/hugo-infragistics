@@ -1,35 +1,41 @@
 en:
   links:
+    - title: RSS
+      url: /en/blog/index.xml
+      blank: true
+    - title: X
+      url: https://twitter.com/Infragistics
+      blank: true
+    - title: Facebook
+      url: https://www.facebook.com/Infragistics
+      blank: true
     - title: LinkedIn
       url: https://www.linkedin.com/company/infragistics/
-      blank: true
-    - title: Twitter
-      url: https://twitter.com/Infragistics
       blank: true
     - title: YouTube
       url: https://www.youtube.com/user/infragisticsInc
       blank: true
-    - title: GitHub
-      url: https://github.com/IgniteUI
-      blank: true
-    - title: Facebook
-      url: https://www.facebook.com/Infragistics
+    - title: Discord
+      url: https://discord.com/invite/infragistics
       blank: true
 
 ja:
   links:
+    - title: RSS
+      url: /ja/blog/index.xml
+      blank: true
+    - title: X
+      url: https://twitter.com/Infragistics
+      blank: true
+    - title: Facebook
+      url: https://www.facebook.com/Infragistics
+      blank: true
     - title: LinkedIn
       url: https://www.linkedin.com/company/infragistics/
-      blank: true
-    - title: Twitter
-      url: https://twitter.com/Infragistics
       blank: true
     - title: YouTube
       url: https://www.youtube.com/user/infragisticsInc
       blank: true
-    - title: GitHub
-      url: https://github.com/IgniteUI
-      blank: true
-    - title: Facebook
-      url: https://www.facebook.com/Infragistics
+    - title: Discord
+      url: https://discord.com/invite/infragistics
       blank: true

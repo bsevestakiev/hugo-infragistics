@@ -14,20 +14,21 @@ en:
           url: /en/products/
         - title: Free Trials
           url: /en/free-downloads/
-    - title: Open-Source Components
-      links:
-        - title: Angular
-          url: https://github.com/IgniteUI/igniteui-angular
-          blank: true
-        - title: Blazor
-          url: https://github.com/IgniteUI/igniteui-blazor
-          blank: true
-        - title: React
-          url: https://github.com/IgniteUI/igniteui-react
-          blank: true
-        - title: Web Components
-          url: https://github.com/IgniteUI/igniteui-webcomponents
-          blank: true
+      subgroups:
+        - title: Open-Source Components
+          links:
+            - title: Angular
+              url: https://github.com/IgniteUI/igniteui-angular
+              blank: true
+            - title: Blazor
+              url: https://github.com/IgniteUI/igniteui-blazor
+              blank: true
+            - title: React
+              url: https://github.com/IgniteUI/igniteui-react
+              blank: true
+            - title: Web Components
+              url: https://github.com/IgniteUI/igniteui-webcomponents
+              blank: true
     - title: Learn & Support
       links:
         - title: Help & API Docs
@@ -48,10 +49,13 @@ en:
           url: /en/account/subscriptions/
         - title: Support Requests
           url: /en/account/support/
-        - title: Angular Compare
-          url: /en/compare/angular/
-        - title: Blazor Compare
-          url: /en/compare/blazor/
+      subgroups:
+        - title: Compare
+          links:
+            - title: Angular Compare
+              url: /en/compare/angular/
+            - title: Blazor Compare
+              url: /en/compare/blazor/
     - title: Corporate
       links:
         - title: About Us
@@ -81,20 +85,21 @@ ja:
           url: /ja/products/
         - title: 無料トライアル
           url: /ja/free-downloads/
-    - title: オープンソースコンポーネント
-      links:
-        - title: Angular
-          url: https://github.com/IgniteUI/igniteui-angular
-          blank: true
-        - title: Blazor
-          url: https://github.com/IgniteUI/igniteui-blazor
-          blank: true
-        - title: React
-          url: https://github.com/IgniteUI/igniteui-react
-          blank: true
-        - title: Web Components
-          url: https://github.com/IgniteUI/igniteui-webcomponents
-          blank: true
+      subgroups:
+        - title: オープンソースコンポーネント
+          links:
+            - title: Angular
+              url: https://github.com/IgniteUI/igniteui-angular
+              blank: true
+            - title: Blazor
+              url: https://github.com/IgniteUI/igniteui-blazor
+              blank: true
+            - title: React
+              url: https://github.com/IgniteUI/igniteui-react
+              blank: true
+            - title: Web Components
+              url: https://github.com/IgniteUI/igniteui-webcomponents
+              blank: true
     - title: 学習 & サポート
       links:
         - title: ヘルプ & API ドキュメント
@@ -115,10 +120,13 @@ ja:
           url: /ja/account/subscriptions/
         - title: サポートリクエスト
           url: /ja/account/support/
-        - title: Angular 比較
-          url: /ja/compare/angular/
-        - title: Blazor 比較
-          url: /ja/compare/blazor/
+      subgroups:
+        - title: 比較
+          links:
+            - title: Angular 比較
+              url: /ja/compare/angular/
+            - title: Blazor 比較
+              url: /ja/compare/blazor/
     - title: 企業情報
       links:
         - title: 会社概要

@@ -2,85 +2,110 @@
 {{- $footerNav := index site.Data.footernav $lang -}}
 {{- $social := index site.Data.menu.social $lang -}}
 {{- $legal := index site.Data.menu.legal $lang -}}
+{{- $copyright := printf "© Copyright %d INFRAGISTICS. All Rights Reserved." now.Year -}}
 
 <footer role="contentinfo" id="footer">
   <div class="container">
 
     {{/* Social icons — centered at top */}}
     {{- with $social }}
-      <div class="footer-social-row">
-        <ul class="nav nav-social footer-social">
-          {{- range .links }}
-            <li class="{{ lower (safeHTML .title) }}">
-              {{- partial "nav/link.html" (dict "link" . "span" true) -}}
-            </li>
-          {{- end }}
-        </ul>
-      </div>
+    <div class="footer-social-row">
+      <ul class="footer-social-list">
+        {{- range .links }}
+        {{- $name := lower .title }}
+        <li>
+          <a href="{{ .url | safeURL }}"{{ if .blank }} target="_blank" rel="noopener"{{ end }} class="footer-social-link" aria-label="{{ .title }}">
+            {{- if eq $name "rss" }}
+            <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+              <path d="M5.5 12a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m-3-8.5a1 1 0 0 1 1-1c5.523 0 10 4.477 10 10a1 1 0 1 1-2 0 8 8 0 0 0-8-8 1 1 0 0 1-1-1m0 4a1 1 0 0 1 1-1 6 6 0 0 1 6 6 1 1 0 1 1-2 0 4 4 0 0 0-4-4 1 1 0 0 1-1-1"/>
+            </svg>
+            {{- else if eq $name "x" }}
+            <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"/>
+            </svg>
+            {{- else if eq $name "facebook" }}
+            <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"/>
+            </svg>
+            {{- else if eq $name "linkedin" }}
+            <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"/>
+            </svg>
+            {{- else if eq $name "youtube" }}
+            <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.01 2.01 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.01 2.01 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31 31 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.01 2.01 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A100 100 0 0 1 7.858 2zM6.4 5.209v4.818l4.157-2.408z"/>
+            </svg>
+            {{- else if eq $name "discord" }}
+            <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"/>
+            </svg>
+            {{- else }}{{ .title }}
+            {{- end }}
+          </a>
+        </li>
+        {{- end }}
+      </ul>
+    </div>
     {{- end }}
 
-    {{/* Nav columns */}}
-    {{- with $footerNav }}
-      <div class="footer-top">
+    {{/* Main body: nav columns + newsletter panel */}}
+    <div class="footer-body">
+
+      {{- with $footerNav }}
+      <div class="footer-nav-cols">
         {{- range .columns }}
-          <div class="footer-nav-col">
-            <p class="nav-title">{{ .title }}</p>
-            <ul class="nav nav-secondary">
-              {{- range .links }}
-                <li>
-                  <a href="{{ .url | safeURL }}"
-                    {{- if .blank }} target="_blank" rel="noopener"{{ end }}
-                    class="nav-link">{{ .title }}</a>
-                </li>
-              {{- end }}
-            </ul>
-          </div>
+        <div class="footer-nav-col">
+          <p class="footer-col-heading">{{ .title }}</p>
+          <ul class="nav nav-secondary">
+            {{- range .links }}
+            <li>
+              <a href="{{ .url | safeURL }}"{{ if .blank }} target="_blank" rel="noopener"{{ end }} class="nav-link">{{ .title }}</a>
+            </li>
+            {{- end }}
+          </ul>
+          {{- range .subgroups }}
+          <p class="nav-subtitle">{{ .title }}</p>
+          <ul class="nav nav-secondary">
+            {{- range .links }}
+            <li>
+              <a href="{{ .url | safeURL }}"{{ if .blank }} target="_blank" rel="noopener"{{ end }} class="nav-link">{{ .title }}</a>
+            </li>
+            {{- end }}
+          </ul>
+          {{- end }}
+        </div>
         {{- end }}
       </div>
-    {{- end }}
-
-    {{/* Newsletter subscription band */}}
-    {{- $newsletterLabel := "Stay up to date — get the latest news and releases in your inbox." -}}
-    {{- $newsletterPlaceholder := "Enter your email address" -}}
-    {{- $newsletterAriaLabel := "Email address" -}}
-    {{- $newsletterButton := "Subscribe" -}}
-    {{- $copyright := printf "© %d Infragistics, Inc. All Rights Reserved." now.Year -}}
-    {{- if eq $lang "ja" -}}
-      {{- $newsletterLabel = "最新情報をお届けします — ニュースやリリース情報をメールでお受け取りください。" -}}
-      {{- $newsletterPlaceholder = "メールアドレスを入力" -}}
-      {{- $newsletterAriaLabel = "メールアドレス" -}}
-      {{- $newsletterButton = "登録する" -}}
-      {{- $copyright = printf "© %d Infragistics, Inc. All Rights Reserved." now.Year -}}
-    {{- end -}}
-    <div class="footer-newsletter">
-      <p class="footer-newsletter-label">{{ $newsletterLabel }}</p>
-      <form class="footer-newsletter-form" action="https://formspree.io/f/xeepdvwd" method="post" novalidate>
-        <div class="input-group">
-          <input
-            type="email"
-            name="email"
-            class="form-control"
-            placeholder="{{ $newsletterPlaceholder }}"
-            aria-label="{{ $newsletterAriaLabel }}"
-            required
-          >
-          <button class="btn btn-primary" type="submit">{{ $newsletterButton }}</button>
-        </div>
-      </form>
-    </div>
-
-    {{/* Bottom bar: legal + copyright */}}
-    <div class="footer-bottom">
-      {{- with $legal }}
-        <ul class="nav nav-legal">
-          {{- range .links }}
-            <li>
-              <a href="{{ .url | safeURL }}" class="nav-link">{{ .title }}</a>
-            </li>
-          {{- end }}
-        </ul>
       {{- end }}
 
+      {{/* Newsletter panel */}}
+      <div class="footer-newsletter-panel">
+        <p class="footer-newsletter-headline">The best blogs, whitepapers, and other <span class="footer-newsletter-highlight">user experience</span> resources</p>
+        <form class="footer-newsletter-form" action="https://formspree.io/f/xeepdvwd" method="post" novalidate>
+          <input type="email" name="email" class="form-control" placeholder="Your email address" aria-label="Email address" required>
+          <div class="footer-newsletter-check">
+            <input type="checkbox" id="footer-terms" name="terms" class="form-check-input" required>
+            <label for="footer-terms" class="form-check-label">I understand and agree to the terms of infragistics' <a href="/en/legal-mentions/">Terms of Use</a> and <a href="/en/privacy-policy/">Privacy Policy</a></label>
+          </div>
+          <p class="footer-newsletter-recaptcha">This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Terms of Use</a> apply.</p>
+          <button class="btn footer-newsletter-btn" type="submit">SIGN ME UP!</button>
+        </form>
+      </div>
+
+    </div>
+
+    {{/* Bottom bar */}}
+    <div class="footer-bottom">
+      {{- with $legal }}
+      <ul class="nav nav-legal">
+        {{- range .links }}
+        <li>
+          <a href="{{ .url | safeURL }}" class="nav-link">{{ .title }}{{- if .updated }} <span class="footer-updated">(updated)</span>{{- end }}</a>
+        </li>
+        {{- end }}
+      </ul>
+      {{- end }}
       <p class="footer-copy">{{ $copyright }}</p>
     </div>
 

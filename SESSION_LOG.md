@@ -198,3 +198,68 @@ Fix stories carousel image not showing (cibao), route carousel images through Hu
 ## Known TODOs / Carry Forward
 - Stories carousel images are still placeholders for Scriptly and Bentley Nevada slides — replace with real customer photos when available
 - `content/ja/_index.md` not yet updated to reflect the Cibao slide copy changes
+
+---
+
+# Footer Redesign Session — 2026-04-16
+
+## Goal
+Redesign the footer to match infragistics.com — background colour, column layout, social icons, newsletter panel, and bottom bar.
+
+---
+
+## Changes Made
+
+### Background Colour
+- Changed from navy `#0a2045` to near-black `#111` (matching real site).
+
+### Column Structure — 4 Columns + Newsletter Panel
+- **Before:** 5 equal columns; "Open-Source Components" was its own column.
+- **After:** 4 nav columns + newsletter panel side by side in the same row.
+- `data/footernav.yml` restructured — added `subgroups` support per column:
+  - "Open-Source Components" moved as a sub-group inside Products column
+  - "Angular Compare" / "Blazor Compare" pulled into a "Compare" sub-group inside My Account
+- `layouts/partials/footer/footer.html` fully rewritten with `footer-body` flex layout.
+
+### Social Icons
+- **Before:** LinkedIn, Twitter, YouTube, GitHub, Facebook (theme CSS icon magic via `.nav-social`)
+- **After:** RSS, X, Facebook, LinkedIn, YouTube, Discord — rendered as **inline SVGs** directly in the template, bypassing the theme's CSS icon system entirely.
+- Social order and icons now match the real site.
+
+### Newsletter Panel
+- **Before:** Centred band below nav columns with plain label + input.
+- **After:** Right-side panel (same row as nav columns, separated by a vertical divider) with:
+  - Bold headline "The best blogs, whitepapers…" with blue-highlighted keyword
+  - Email input with dark-background styling
+  - Checkbox + terms agreement text
+  - reCAPTCHA disclaimer
+  - "SIGN ME UP!" CTA button
+
+### Legal Links / Bottom Bar
+- `data/menu/legal.yml` updated: Privacy Policy (updated) / Cookies / Terms of Use (updated) — removed old Sitemap and Legal Mentions entries.
+- Bottom bar changed from left/right split to centred column layout with "(updated)" badges.
+
+### Column Headings — Title Case, Left-Aligned
+- Theme's footer CSS sets `.nav-title { text-align: center }` — couldn't be overridden even with `!important`.
+- **Fix:** Renamed heading class from `nav-title` to `footer-col-heading` in the template — clean slate, no theme interference.
+- Sub-group headings (`nav-subtitle`) styled to match main headings: white, bold, title case, same size.
+
+### External Link Arrows Suppressed
+- Theme auto-appends a `::after` arrow icon to any `<a target="_blank">` link.
+- **Fix:** `footer[role="contentinfo"] a::after { content: none !important }` — removes arrows from social icons, Open-Source links, and newsletter reCAPTCHA links.
+
+### Link Colour — Subgroup Links
+- Bootstrap CSS variable `--bs-nav-link-color` was bleeding through on some links.
+- **Fix:** Added `!important` to nav-link colour in footer nav col rules.
+
+### Nav List Alignment
+- Theme applies `margin-left: calc(var(--bs-nav-link-padding-x) * -1)` to every `.nav` inside the footer, pulling `<ul>` lists to the left of the heading edge.
+- **Fix:** `margin-left: 0 !important; margin-right: 0 !important` on `.nav-secondary` inside footer columns — headings and links now share the same left edge.
+
+---
+
+## Known TODOs / Carry Forward
+- Trust/security badges in bottom bar (BBB, TRUSTe etc.) not implemented — need actual badge embed codes
+- Newsletter headline "user experience" keyword is static blue; real site has a typewriter animation cycling through terms
+- `content/ja/_index.md` footer copy not updated to reflect new structure
+- `custom.sass` now ~1100 lines — worth splitting into partials when design stabilises
