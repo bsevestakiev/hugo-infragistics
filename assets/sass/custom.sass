@@ -936,6 +936,11 @@ footer[role="contentinfo"]
 .block-stories-carousel
   overflow: hidden
   margin: 0
+  // Reserve height before Splide JS sets it — prevents collapse during fade init
+  min-height: 400px
+
+  @media (max-width: 767px)
+    min-height: 0
 
   .stories-splide
     position: relative

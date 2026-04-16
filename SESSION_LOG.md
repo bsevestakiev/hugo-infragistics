@@ -157,3 +157,44 @@ Polish the homepage to closer match infragistics.com, fix rendering issues on Ch
 - Some `!important` flags in logos section are a smell — revisit with proper specificity when time allows
 - Mega menu still slightly tight at 1366px — may need further tuning once Chromebook feedback comes in
 - Demo apps on IIS: agreed strategy is static export → S3/CloudFront under `/demos/` prefix in same bucket as Hugo site. Use `--exclude "demos/*"` in Hugo deploy sync.
+
+---
+
+# Stories Carousel Images Session — 2026-04-15
+
+## Goal
+Fix stories carousel image not showing (cibao), route carousel images through Hugo asset pipeline, and eliminate layout shift on page load.
+
+---
+
+## Changes Made
+
+### Cibao Image — Extension Mismatch
+- **Problem:** Image not showing at all.
+- **Root cause:** File was `cibao.jpg` but frontmatter referenced `cibao.jpeg` — extension mismatch.
+- **Fix:** Updated `content/en/_index.md` to use `src: "images/home/cibao.jpg"`.
+
+### Carousel Images — Hugo Asset Pipeline
+- **Problem:** `stories-carousel.html` was using a plain `<img src="{{ .src | relURL }}">` — images served raw from `static/`, no optimisation.
+- **Fix:**
+  - Moved `cibao.jpg` from `static/images/home/` → `assets/images/home/` (alongside the other carousel images already there)
+  - Updated `layouts/partials/blocks/templates/stories-carousel.html` to use `resources.Get` + `.Resize "1000x webp"` — Hugo resizes to max 1000px wide and converts to WebP
+  - Emits real `width`/`height` attributes so the browser can reserve space before the image loads
+  - Removed `loading="lazy"` — carousel is above the fold and should load eagerly
+  - Falls back to plain `relURL` if `resources.Get` can't find the file (safe for future images still in `static/`)
+
+### Stories Carousel — Height Collapse on Load
+- **Problem:** On page reload, the carousel briefly appeared very flat (collapsed height), then jumped to the correct 400px layout.
+- **Root cause:** Splide `type: fade` uses `position: absolute` on slides, which collapses the track height to zero until JS runs and reads the `height` option. This is a Splide fade-specific behaviour — `type: loop` doesn't have this issue.
+- **Wrong fix attempted:** Added `.stories-splide:not(.is-initialized)` CSS rule to hide extra slides — this targeted the wrong problem (stacking, not height collapse) and had no effect.
+- **Correct fix:**
+  - Added `"height": "400px"` to the Splide config defaults in the template — Splide sets the track height immediately on init, eliminating the jump
+  - Changed template defaults to `type: fade` (matching the frontmatter intent) and used `merge` so frontmatter params can still override any default
+  - Added `min-height: 400px` to `.block-stories-carousel` in `custom.sass` as a CSS safety net for the brief gap before Splide reads its config
+- **Pattern to remember:** Splide `type: fade` requires an explicit `height` or `heightRatio` in the config — without it the track height is 0 until JS calculates it.
+
+---
+
+## Known TODOs / Carry Forward
+- Stories carousel images are still placeholders for Scriptly and Bentley Nevada slides — replace with real customer photos when available
+- `content/ja/_index.md` not yet updated to reflect the Cibao slide copy changes

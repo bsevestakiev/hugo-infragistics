@@ -97,13 +97,13 @@ blocks:
         pauseOnHover: true
         arrows: false
     items:
-      - title: "Slingshot Transforms How Cibao Meat Products Collaborates Across Departments"
-        text: "With Slingshot, Cibao gained full real-time visibility into every project across the organisation, eliminating silos and accelerating decision-making."
+      - title: "Cibao Meat Products Increases Cash Flow, Saves Time with Slingshot"
+        text: "As a champion of Slingshot, Heinz is in the process of onboarding all the different departments within the company to create Production-Based dashboards, Active Sales Accounts KPI’s, and a Factbird Operational Dashboard."
         cta:
           text: "Read the Story"
           url: "/stories/cibao/"
         image:
-          src: "images/home/slingshot.webp"
+          src: "images/home/cibao.jpg"
           alt: "Cibao Meat Products team collaboration"
       - title: "Scriptly Helps Pharmacies Identify Trends in Real Time with Reveal"
         text: "With Reveal built into Scriptly, pharmacies can access up-to-the-minute data, spot trends in patients, prescriptions, and customize dashboards to see relevant data."

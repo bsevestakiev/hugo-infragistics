@@ -1,7 +1,7 @@
-{{- $carousel_params := dict "type" "loop" "autoplay" true "interval" 6000 "pauseOnHover" true "arrows" false -}}
+{{- $carousel_params := dict "type" "fade" "rewind" true "autoplay" true "interval" 6000 "pauseOnHover" true "arrows" false "height" "400px" -}}
 {{- with .carousel -}}
   {{- with .params -}}
-    {{- $carousel_params = . -}}
+    {{- $carousel_params = merge $carousel_params . -}}
   {{- end -}}
 {{- end -}}
 {{- if .items }}
@@ -21,7 +21,13 @@
             </div>
             {{- with .image }}
             <div class="story-slide-image">
-              <img src="{{ .src | relURL }}" alt="{{ .alt }}" loading="lazy">
+              {{- $img := resources.Get .src -}}
+              {{- if $img -}}
+                {{- $img = $img.Resize "1000x webp" -}}
+                <img src="{{ $img.RelPermalink }}" width="{{ $img.Width }}" height="{{ $img.Height }}" alt="{{ .alt }}">
+              {{- else -}}
+                <img src="{{ .src | relURL }}" alt="{{ .alt }}">
+              {{- end -}}
             </div>
             {{- end }}
           </div>
