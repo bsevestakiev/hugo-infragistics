@@ -263,3 +263,46 @@ Redesign the footer to match infragistics.com — background colour, column layo
 - Newsletter headline "user experience" keyword is static blue; real site has a typewriter animation cycling through terms
 - `content/ja/_index.md` footer copy not updated to reflect new structure
 - `custom.sass` now ~1100 lines — worth splitting into partials when design stabilises
+
+---
+
+# Homepage Content & Blocks Session — 2026-04-16
+
+## Goal
+Fix news card UX issues, replace auto-pulled blog blocks with manually curated content blocks, add press/news feed section, and fix stories carousel autoplay.
+
+---
+
+## Changes Made
+
+### News Cards — UX Fixes
+- **"Read Now" too far left:** Added `padding-left: 0.75rem` to `.btn` inside `.block-latest .content` to nudge it right.
+- **Hover underline on card title:** Added explicit `text-decoration: none !important` on `.content:hover h3` — theme was applying underline via cascade.
+- **Removed "See all news and articles" button:** Stripped the `footing` block from the `latest` entry in `_index.md`.
+
+### `type: articles` — Manually Curated News Cards
+- **Problem:** `type: latest` pulls live blog posts — no way to set custom links, images, or external URLs.
+- **Fix:** Created `layouts/partials/blocks/templates/articles.html` — renders the same `.block-latest` card HTML (same CSS, image-first, "Read Now" link) but items come entirely from frontmatter.
+- Supports optional `image`, custom `cta` label per item, and any URL including external.
+- Replaced `type: latest` in `_index.md` with `type: articles` with 3 manually curated items + placeholder images.
+
+### `type: press-news` — 4-Column Text News Feed
+- Created `layouts/partials/blocks/templates/press-news.html` matching the real site's "Stay Current with the Latest News and Features" section.
+- 4-column grid, each card has: date, bold title (external link), body text, "Read More" link.
+- All item links open `target="_blank" rel="noopener"` — designed for external press/blog URLs.
+- Heading and "See all" link are centred and stacked.
+- CSS added to `custom.sass`: `.block-press-news` with responsive grid, border-top card style, date/title/text/read-more styling.
+- Added to `_index.md` as block 5b with 4 placeholder items.
+
+### Stories Carousel — Autoplay Fix
+- **Root cause:** Theme's `carousel.js` calls `new Splide(el).mount()` with no extensions — Splide's Autoplay component is in the bundle but never explicitly started.
+- **Fix:** Overrode `assets/js/features/carousel.js` (Hugo project files take precedence over theme module files at the same path). Override adds `startAutoplay()` which calls `splide.Components.Autoplay.play()` after mount.
+- Also added `assets/js/utils/scrollspy.js` at matching path so the import resolves correctly.
+
+---
+
+## Known TODOs / Carry Forward
+- Article card images are placeholders — replace `src` values in `_index.md` when real images are available
+- Press-news item URLs point to real infragistics.com — update to local paths when those pages exist
+- `content/ja/_index.md` not updated to include articles or press-news blocks
+- Carousel autoplay override: verify in browser that slides advance automatically

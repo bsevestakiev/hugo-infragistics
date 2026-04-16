@@ -1,0 +1,41 @@
+{{- if .items }}
+<section class="block-latest block-latest-grid block-articles" {{ partial "func/SetAnim.html" (dict "element" "block") }}>
+  <div class="container">
+
+    {{- with .heading }}
+    <header class="heading">
+      {{- with .title }}<h2>{{ . }}</h2>{{ end }}
+      {{- with .text }}<p>{{ . }}</p>{{ end }}
+    </header>
+    {{- end }}
+
+    <div class="items">
+      <div class="pages">
+        {{- range .items }}
+        <div>
+          <article class="page">
+            <a href="{{ .url | safeURL }}" class="content">
+              <p class="name">{{ .title }}</p>
+              {{- with .text }}<p class="description">{{ . }}</p>{{ end }}
+              <p class="btn">{{ if .cta }}{{ .cta }}{{ else }}Read Now{{ end }}</p>
+            </a>
+            <div class="media">
+              {{- with .image }}
+                {{- $img := resources.Get .src }}
+                {{- if $img }}
+                  {{- $img = $img.Resize "800x webp" }}
+                  <img src="{{ $img.RelPermalink }}" width="{{ $img.Width }}" height="{{ $img.Height }}" alt="{{ .alt }}" loading="lazy">
+                {{- else }}
+                  <img src="{{ .src | relURL }}" alt="{{ .alt }}" loading="lazy">
+                {{- end }}
+              {{- end }}
+            </div>
+          </article>
+        </div>
+        {{- end }}
+      </div>
+    </div>
+
+  </div>
+</section>
+{{- end }}

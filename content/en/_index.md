@@ -106,32 +106,82 @@ blocks:
           src: "images/home/cibao.jpg"
           alt: "Cibao Meat Products team collaboration"
       - title: "Scriptly Helps Pharmacies Identify Trends in Real Time with Reveal"
-        text: "With Reveal built into Scriptly, pharmacies can access up-to-the-minute data, spot trends in patients, prescriptions, and customize dashboards to see relevant data."
+        text: "With Reveal built into Scriptly, pharmacies can access up-to-the-minute data, spot trends in patients, prescribers, and prescriptions, and customize dashboards to see relevant data. Reveal’s embedded analytics solution removed the need for manual reporting."
         cta:
           text: "Read the Story"
           url: "/stories/scriptly/"
         image:
-          src: "images/home/analytics-dashboard.webp"
+          src: "images/home/scriptly.jpg"
           alt: "Scriptly pharmacy analytics"
-      - title: "Bentley Nevada Modernises Industrial Monitoring with Ignite UI for Angular"
-        text: "Faced with ageing desktop infrastructure, Bentley Nevada's team rebuilt their critical monitoring platform with Ignite UI for Angular in record time."
+      - title: "Maintaining uptime at leading industrial plants globally"
+        text: "Every second of downtime at a power plant, oil and gas platform, or renewable energy facility is costly. Bently Nevada keeps the leading industrial producers running 24x7 with a state-of-the-art condition monitoring system that runs on Infragistics Ultimate UI for WPF software."
         cta:
           text: "Read the Story"
           url: "/stories/bentley-nevada/"
         image:
-          src: "images/home/ui-dashboard.webp"
+          src: "images/home/bentley.jpg"
           alt: "Bentley Nevada industrial monitoring dashboard"
+      - title: "Bringing modern Angular look and feel to bank’s essential pricing application"
+        text: "A prominent UK investment bank used Infragistics’ high-performing Ignite UI toolkit with 65+ Angular components to add a modern, user-friendly UI and very fast data grids to critical software in its new Risk and Finance Solutions division."
+        cta:
+          text: "Read the Story"
+          url: "/stories/bentley-nevada/"
+        image:
+          src: "images/home/ukangular.jpg"
+          alt: "Angular"
 
-  # 5. Latest news
-  - type: latest
-    section: blog
-    count: 3
+  # 5. Featured articles — manually curated
+  - type: articles
     heading:
       title: "Ideas That Inspire. Discover What's New."
-    footing:
-      ctas:
-        - text: "See all news and articles"
-          url: "/blog/"
+    items:
+      - title: "Cibao Meat Products Increases Cash Flow, Saves Time with Slingshot"
+        text: "As a champion of Slingshot, Heinz is in the process of onboarding all the different departments within the company to create Production-Based dashboards, Active Sales Accounts KPI’s, and a Factbird Operational Dashboard."
+        url: "/blog/the-real-cost-of-technical-debt/"
+        image:
+          src: "images/home/cibao.jpg"
+          alt: "Technical Debt"
+      - title: "Scriptly Helps Pharmacies Identify Trends in Real Time with Reveal"
+        text: "With Reveal built into Scriptly, pharmacies can access up-to-the-minute data, spot trends in patients, prescribers, and prescriptions, and customize dashboards to see relevant data. Reveal’s embedded analytics solution removed the need for manual reporting."
+        url: "/blog/monorepo-vs-polyrepo/"
+        image:
+          src: "images/home/scriptly.jpg"
+          alt: "Monorepo vs Polyrepo"
+      - title: "Angular Essentials RefCard Getting Started"
+        text: "This RefCard will review Angular essentials and cover pivotal concepts behind this ever-growing application platform. From Angular’s basic architecture to property and event binding, this RefCard highlights the foundational and advanced topics needed for successful app development in Angular."
+        url: "/blog/api-first-development-modern-teams/"
+        image:
+          src: "images/home/angularref.jpg"
+          alt: "API-First Development"
+
+  # 5b. Press / news feed — manually curated, external links
+  - type: press-news
+    heading:
+      title: "Stay Current with the Latest News and Features"
+      cta:
+        text: "See all news and articles"
+        url: "/blog/"
+    items:
+      - date: "February 11, 2025"
+        title: "App Builder AI Brings Speed, Flexibility and Reliability to Enterprise App Building"
+        text: "As more companies embrace AI to build and refine enterprise applications, many are discovering the gaps between what these tools can promise and their actual day-to-day reality."
+        url: "https://www.infragistics.com/community/blogs/b/infragistics/posts/app-builder-ai"
+        cta: "Read More"
+      - date: "February 11, 2025"
+        title: "Interview With Founder & CEO Dean Guida About Infragistics"
+        text: "\"While I was doing well as a freelance developer on Wall Street, I had larger ambitions and realized the full potential of UX and developer tools.\""
+        url: "https://www.infragistics.com/community/blogs/b/infragistics/posts/interview-founder-ceo-dean-guida"
+        cta: "Read More"
+      - date: "February 5, 2025"
+        title: "Why Leaders and Employees Are Afraid of AI — and What to Do About It"
+        text: "CEOs feel the pressure to get ahead and be the first to revolutionize their company using AI. It is an exciting time for many, as AI promises an increase of reduced work."
+        url: "https://www.infragistics.com/community/blogs/b/infragistics/posts/leaders-employees-afraid-of-ai"
+        cta: "Read More"
+      - date: "January 29, 2025"
+        title: "Reveal Top Software Development Challenges Survey Software Developers Face"
+        text: "A recent software development challenges findings reveal a technology landscape defined by strong momentum from developer activity while growing constraints from talent."
+        url: "https://www.infragistics.com/community/blogs/b/infragistics/posts/reveal-top-software-challenges-survey"
+        cta: "Read More"
 
   # 6. Trusted partners — logo expand testimonials
   - type: logo-testimonials

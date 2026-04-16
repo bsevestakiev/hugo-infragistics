@@ -985,6 +985,12 @@ footer[role="contentinfo"]
       text-decoration: none !important
       color: inherit
 
+      &:hover, &:focus
+        text-decoration: none !important
+
+        h3, .title
+          text-decoration: none !important
+
       h3, .title
         font-size: 1rem
         font-weight: 700
@@ -1006,12 +1012,93 @@ footer[role="contentinfo"]
         color: #0099ff !important
         font-size: 0.875rem
         font-weight: 600
-        padding: 0 !important
+        padding: 0 0 0 0.75rem !important
         text-decoration: none !important
 
         &:hover
           color: #007acc !important
-          text-decoration: underline !important
+          text-decoration: none !important
+
+// =====================================================================
+// Press / news feed block — 4-column text cards
+// =====================================================================
+
+.block-press-news
+  padding: 3.5rem 0
+
+  .press-news-header
+    display: flex
+    flex-direction: column
+    align-items: center
+    text-align: center
+    gap: 0.6rem
+    margin-bottom: 2rem
+
+    h2
+      font-size: 1.75rem
+      font-weight: 700
+      color: #111111
+      margin: 0
+
+    .press-news-see-all
+      font-size: 0.875rem
+      color: #0099ff
+      text-decoration: none
+
+      &:hover
+        text-decoration: underline
+
+  .press-news-grid
+    display: grid
+    grid-template-columns: repeat(4, 1fr)
+    gap: 1.5rem 2rem
+
+    @media (max-width: 991px)
+      grid-template-columns: repeat(2, 1fr)
+
+    @media (max-width: 575px)
+      grid-template-columns: 1fr
+
+  .press-news-item
+    display: flex
+    flex-direction: column
+    gap: 0.5rem
+    padding-top: 0.75rem
+    border-top: 2px solid #e5e7eb
+
+  .press-news-date
+    font-size: 0.78rem
+    color: #9ca3af
+    margin: 0
+
+  .press-news-title
+    font-size: 0.9rem
+    font-weight: 700
+    color: #111111
+    text-decoration: none
+    line-height: 1.4
+    flex: 1
+
+    &:hover
+      color: #0099ff
+      text-decoration: none
+
+  .press-news-text
+    font-size: 0.82rem
+    color: #6b7280
+    line-height: 1.55
+    margin: 0
+
+  .press-news-read-more
+    font-size: 0.82rem
+    font-weight: 600
+    color: #0099ff
+    text-decoration: none
+    align-self: flex-start
+    margin-top: 0.25rem
+
+    &:hover
+      text-decoration: underline
 
 // =====================================================================
 // Logos block — bold heading text + tighter grid cells
