@@ -120,12 +120,23 @@ h3, h4, h5, h6
 @keyframes animate_words
   0%
     transform: translateY(0)
+  30%
+    transform: translateY(0)
   33%
+    transform: translateY(-33.33%)
+  63%
     transform: translateY(-33.33%)
   66%
     transform: translateY(-66.66%)
+  99%
+    transform: translateY(-66.66%)
+    animation-timing-function: step-end
   100%
     transform: translateY(0)
+
+// Non-hero title block: heading spans full container width (matches buckets below)
+.block-title:not(.block-bg) .heading
+  max-width: 100% !important
 
 // #0a2045 replaces all gray backgrounds site-wide
 .block-bg
@@ -235,7 +246,7 @@ h3, h4, h5, h6
 
     .lt-description
       color: #444
-      font-size: 0.95rem
+      font-size: 0.875rem
       margin-bottom: 1rem
 
     blockquote
@@ -262,12 +273,20 @@ h3, h4, h5, h6
     background-color: #007acc !important
     border-color: #007acc !important
 
-// Product cards — image on top, text below
+// Product cards — image on top, text below; h4 titles, bold Learn More
 .block-informations .item
   --bs-card-bg: #f0f4fa
 
   .media
     order: -1
+
+  h4.name
+    font-size: 1.1rem
+    font-weight: 700
+    margin-bottom: 0.5rem
+
+  .btn
+    font-weight: 700 !important
 
 // Logo size
 .logo img
@@ -279,6 +298,10 @@ h3, h4, h5, h6
 header[role="banner"] > nav
   padding-top: 0.25rem !important
   padding-bottom: 0.25rem !important
+
+// Always-visible sticky nav — disable theme's hide-on-scroll-down behavior
+html.is-scrolling-down header[role="banner"]
+  top: 0 !important
 
 main
   padding-top: 0 !important
@@ -296,8 +319,8 @@ header nav .nav-primary
     background: none !important
     border-radius: 0
     border-bottom: 2px solid transparent
-    font-size: 0.95rem
-    font-weight: 400
+    font-size: 0.875rem
+    font-weight: 500
     padding: 0.5rem 0.75rem
     text-decoration: none !important
     transition: color 0.15s ease, border-color 0.15s ease
@@ -364,8 +387,9 @@ $mega-link-hover: #0099ff
 $mega-badge-bg: #0099ff
 $mega-price-color: #0a2045
 $mega-desc-color: #6b7280
-$mega-bundle-bg: #f0f6ff
-$mega-bundle-border: #dbeafe
+$mega-bundle-bg: #ffffff
+$mega-bundle-border: #e5e7eb
+$mega-bundle-panel-bg: #f4f4f4
 $nav-height: 56px
 
 // Panels are position:fixed — coordinates set by JS, immune to CSS cascade
@@ -408,29 +432,75 @@ $nav-height: 56px
   box-shadow: $mega-shadow
   z-index: 1040
   padding: 1.25rem 0
+  --bs-nav-link-padding-x: 0
+  --bs-nav-link-padding-y: 0
 
 .mega-inner
-  display: flex
-  gap: 1.25rem
-  flex-wrap: wrap
-  align-items: flex-start
+  display: grid
+  grid-template-columns: minmax(200px, 1fr) 1.4fr 1fr 1fr
+  align-items: start
 
 .mega-group
-  flex: 1 1 130px
-  min-width: 120px
+  padding: 1.25rem 1rem
 
+// Bundle: column 1, spans all rows
 .mega-group--bundle
-  flex: 2 1 220px
-  min-width: 200px
+  grid-column: 1
+  grid-row: 1 / span 3
+  background: $mega-bundle-panel-bg
+  border-radius: 0
+  padding: 1.25rem 1.25rem 1rem
+  border-right: 1px solid $mega-border
+  align-self: stretch
+
+// Web: column 2, full height, right border
+.mega-group:nth-child(2)
+  grid-column: 2
+  grid-row: 1 / span 3
+  border-right: 1px solid $mega-border
+
+// Desktop: column 3 row 1, right border
+.mega-group:nth-child(3)
+  grid-column: 3
+  grid-row: 1
+  border-right: 1px solid $mega-border
+
+// Cross Platform: column 3 row 2, right border (continues the line)
+.mega-group:nth-child(4)
+  grid-column: 3
+  grid-row: 2
+  border-right: 1px solid $mega-border
+
+// Design to Code: column 4 row 1
+.mega-group:nth-child(5)
+  grid-column: 4
+  grid-row: 1
+
+// Automated Testing Tools: column 4 row 2
+.mega-group:nth-child(6)
+  grid-column: 4
+  grid-row: 2
 
 .mega-group-heading
-  color: $mega-heading-color
-  font-size: 0.7rem
+  color: #1a1a1a
+  font-size: 0.8rem
   font-weight: 700
-  letter-spacing: 0.02em
-  margin-bottom: 0.5rem
-  padding-bottom: 0.3rem
-  border-bottom: 1px solid $mega-border
+  letter-spacing: 0
+  margin-bottom: 0.6rem
+  padding-bottom: 0
+  border-bottom: none
+
+.mega-group--bundle .mega-group-heading
+  display: inline-block
+  background: #555555
+  color: #ffffff
+  font-size: 0.65rem
+  letter-spacing: 0.06em
+  text-transform: uppercase
+  padding: 0.2rem 0.5rem
+  border-radius: 3px
+  border-bottom: none
+  margin-bottom: 0.75rem
 
 .mega-group-list
   list-style: none
@@ -441,8 +511,8 @@ $nav-height: 56px
   display: flex
   flex-direction: column
   gap: 0.1rem
-  padding: 0.25rem 0.4rem
-  border-radius: 6px
+  padding: 0.2rem 0
+  border-radius: 4px
   text-decoration: none !important
   color: $mega-link-color
   transition: background-color 0.15s ease, color 0.15s ease
@@ -456,8 +526,8 @@ $nav-height: 56px
       color: $mega-link-hover
 
 .mega-link-title
-  font-size: 0.73rem
-  font-weight: 600
+  font-size: 0.82rem
+  font-weight: 400
   color: $mega-link-color
   display: flex
   align-items: center
@@ -469,10 +539,16 @@ $nav-height: 56px
   font-size: 0.72rem
   font-weight: 700
   color: #ffffff
-  background: #27ae60
+  background: #1a2d5a
   border-radius: 3px
-  padding: 0.1rem 0.4rem
-  margin-top: 0.25rem
+  padding: 0.15rem 0.5rem
+  white-space: nowrap
+
+.mega-group--bundle .mega-item:last-child .mega-price
+  background: #e07b00
+
+.mega-item--indented .mega-link-title
+  padding-left: 0.75rem
 
 .mega-desc
   font-size: 0.73rem
@@ -496,17 +572,40 @@ $nav-height: 56px
   border-radius: 3px
   vertical-align: middle
 
-// Bundle items: card style
+// Bundle items: card style — grid layout with price on the right
 .mega-group--bundle .mega-link
+  display: grid
+  grid-template-columns: 1fr auto
+  grid-template-rows: auto auto
+  align-items: center
   background: $mega-bundle-bg
   border: 1px solid $mega-bundle-border
   padding: 0.5rem 0.65rem
+
+.mega-group--bundle .mega-link-title
+  grid-column: 1
+  grid-row: 1
+  font-size: 0.875rem
+  font-weight: 600
+  align-self: center
+
+.mega-group--bundle .mega-price
+  grid-column: 2
+  grid-row: 1
+  margin-top: 0
+  align-self: center
+
+.mega-group--bundle .mega-desc
+  grid-column: 1 / -1
+  grid-row: 2
+  color: $mega-desc-color !important
+  margin-top: 0.3rem
   margin-bottom: 0.4rem
   border-radius: 6px
 
   &:hover
-    background: #dbeafe
-    border-color: #93c5fd
+    background: #e8edf5
+    border-color: #c5cfe0
 
 // ── Simple dropdown panel ─────────────────────────────────────────────
 
@@ -567,7 +666,7 @@ $nav-height: 56px
   border-radius: 0
   font-size: 0.9rem
   font-family: inherit
-  font-weight: 200
+  font-weight: 500
   color: inherit
   transition: color 0.15s ease, border-color 0.15s ease
 
@@ -652,6 +751,16 @@ $nav-height: 56px
       padding: 0.6rem 1rem
       color: inherit
 
+    // Chevron right-aligned, label left
+    .nav-toggle
+      display: flex
+      justify-content: space-between
+      align-items: center
+
+    // Subtle border between top-level items (border-top on each item after first)
+    > li + li
+      border-top: 1px solid rgba(0, 0, 0, 0.07)
+
   .mega-panel,
   .dropdown-panel
     position: static !important
@@ -666,19 +775,45 @@ $nav-height: 56px
     border-top: 1px solid $mega-border
 
   .mega-inner
+    display: flex
     flex-direction: column
-    gap: 0.75rem
+    gap: 0
 
-  .mega-group
-    flex: none
+  .mega-group,
+  .mega-group:nth-child(n)
+    grid-column: unset
+    grid-row: unset
+    border-right: none
     width: 100%
+    padding: 0.5rem 1rem
 
-  // Bundle cards: no card style on mobile, just plain links
+  .mega-group--bundle
+    background: none
+    border-right: none
+    border-bottom: 1px solid $mega-border
+
+  // Bundle cards: no card style on mobile — title left, price right, no description
   .mega-group--bundle .mega-link
+    display: flex
+    align-items: center
+    gap: 0.5rem
     background: none
     border: none
     padding: 0.35rem 0.5rem
     margin-bottom: 0
+
+  .mega-group--bundle .mega-link-title
+    flex: 1
+    grid-column: unset
+    grid-row: unset
+
+  .mega-group--bundle .mega-price
+    flex-shrink: 0
+    grid-column: unset
+    grid-row: unset
+
+  .mega-group--bundle .mega-desc
+    display: none
 
   .dropdown-panel
     padding: 0.25rem 0 0.25rem 1rem
@@ -689,6 +824,39 @@ $nav-height: 56px
 
   .mega-overlay
     display: none
+
+  // Mobile offcanvas header: logo left, X right
+  .offcanvas-header-custom
+    display: flex
+    align-items: center
+    justify-content: space-between
+    padding: 0.75rem 1rem
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08)
+
+    .logo img
+      height: 28px
+      width: auto
+
+  .btn-close-offcanvas
+    background: none !important
+    background-image: none !important
+    border: none
+    color: #333333
+    cursor: pointer
+    padding: 0.25rem
+    display: flex
+    align-items: center
+    justify-content: center
+    opacity: 0.7
+
+    &:hover
+      opacity: 1
+
+  // Mobile nav links: always dark, not the blue hover color
+  header nav .nav-primary
+    .nav-link:not(.btn),
+    .nav-toggle
+      color: #1a2332 !important
 
 // =====================================================================
 // Custom footer layout
@@ -1106,9 +1274,14 @@ footer[role="contentinfo"]
 
 .block-logos .logos
   margin-top: 0 !important
+  --bs-gutter-x: 0.5rem
 
 .block-logos .logos > div
   margin-top: 0.1rem !important
+
+.block-logos .logos img
+  max-width: 88% !important
+  max-height: 78% !important
 
 .block-logos .heading p
   font-weight: 700
@@ -1187,6 +1360,12 @@ footer[role="contentinfo"]
     overflow: hidden
     min-height: 220px
 
+    @media (max-width: 767px)
+      flex: none
+      aspect-ratio: 16 / 9
+      min-height: unset
+      width: 100%
+
     img
       width: 100%
       height: 100%
@@ -1214,3 +1393,70 @@ footer[role="contentinfo"]
     &.is-active
       background: #ffffff
       transform: scale(1.2)
+
+// =====================================================================
+// Mobile overrides
+// =====================================================================
+
+@media (max-width: 767px)
+
+  // 1. Product cards — disable horizontal scroll-snap, stack vertically
+  .block-informations .items:not(.items-1)
+    flex-wrap: wrap !important
+    overflow: visible !important
+    scroll-snap-type: none !important
+    margin-left: 0 !important
+    margin-right: 0 !important
+    > div
+      flex-basis: 100% !important
+      width: 100% !important
+      padding-left: var(--bs-gutter-x, 0.75rem) !important
+      padding-right: var(--bs-gutter-x, 0.75rem) !important
+      scroll-snap-align: none !important
+
+  // 2. Articles/latest cards — disable horizontal scroll-snap, stack vertically
+  .block-latest .items > div
+    flex-wrap: wrap !important
+    overflow: visible !important
+    scroll-snap-type: none !important
+    margin-left: 0 !important
+    margin-right: 0 !important
+    > div
+      flex-basis: 100% !important
+      width: 100% !important
+      padding-left: var(--bs-gutter-x, 0.75rem) !important
+      padding-right: var(--bs-gutter-x, 0.75rem) !important
+      scroll-snap-align: none !important
+
+  // 3. Logos — 2 columns, compact on mobile
+  .block-logos
+    --bs-aspect-ratio: 60%
+
+  .block-logos .logos
+    --bs-gutter-x: 0.25rem
+
+  .block-logos .logos > div
+    flex: 0 0 50% !important
+    max-width: 50% !important
+
+  .block-logos .logos img
+    max-width: 80% !important
+    max-height: 70% !important
+
+  // 4. Block headings centered on mobile
+  [class*="block-"] .heading,
+  [class*="block-"] .footing,
+  .block-title
+    text-align: center !important
+    align-items: center !important
+  [class*="block-"] .heading .container,
+  [class*="block-"] .footing .container
+    text-align: center !important
+    align-items: center !important
+
+  // 5. Full-width sections — keep within viewport, no bleed
+  .block-stories-carousel,
+  .block-editorial-custom-bg
+    margin-left: 0 !important
+    margin-right: 0 !important
+    overflow: hidden

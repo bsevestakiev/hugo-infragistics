@@ -1,4 +1,4 @@
-{{- $carousel_params := dict "type" "fade" "rewind" true "autoplay" true "interval" 6000 "pauseOnHover" true "arrows" false "height" "400px" -}}
+{{- $carousel_params := dict "type" "fade" "rewind" true "autoplay" true "interval" 6000 "pauseOnHover" true "arrows" false "height" "400px" "breakpoints" (dict "767" (dict "height" "auto")) -}}
 {{- with .carousel -}}
   {{- with .params -}}
     {{- $carousel_params = merge $carousel_params . -}}

@@ -27,12 +27,16 @@ en:
               url: "/products/ignite-ui/"
             - title: "Angular"
               url: "/products/ignite-ui-angular/"
+              indent: true
             - title: "React"
               url: "/products/ignite-ui-react/"
+              indent: true
             - title: "Web Components"
               url: "/products/ignite-ui-web-components/"
+              indent: true
             - title: "Blazor"
               url: "/products/ignite-ui-blazor/"
+              indent: true
             - title: "Ultimate UI for ASP.NET Core"
               url: "/products/aspnet-core/"
             - title: "Ultimate UI for ASP.NET MVC"
@@ -167,12 +171,16 @@ ja:
               url: "/products/ignite-ui/"
             - title: "Angular"
               url: "/products/ignite-ui-angular/"
+              indent: true
             - title: "React"
               url: "/products/ignite-ui-react/"
+              indent: true
             - title: "Web Components"
               url: "/products/ignite-ui-web-components/"
+              indent: true
             - title: "Blazor"
               url: "/products/ignite-ui-blazor/"
+              indent: true
             - title: "Ultimate UI for ASP.NET Core"
               url: "/products/aspnet-core/"
             - title: "Ultimate UI for ASP.NET MVC"

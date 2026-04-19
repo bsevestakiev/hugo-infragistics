@@ -31,7 +31,7 @@
                   <p class="mega-group-heading">{{ .heading }}</p>
                   <ul class="mega-group-list">
                     {{- range .items }}
-                      <li class="mega-item{{ if .bundle }} mega-item--bundle{{ end }}">
+                      <li class="mega-item{{ if .bundle }} mega-item--bundle{{ end }}{{ if .indent }} mega-item--indented{{ end }}">
                         <a href="{{ .url | default "#" }}" class="mega-link">
                           <span class="mega-link-title">
                             {{ .title }}

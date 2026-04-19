@@ -24,7 +24,10 @@ module.exports = {
             'fade',
             /-backdrop$/,
             /^is-/,
-            /^splide_/
+            /^splide_/,
+            /^mega-item--/,
+            'offcanvas-header-custom',
+            'btn-close-offcanvas'
           ],
           deep: [/^tobii/]
         },
