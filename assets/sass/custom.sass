@@ -96,43 +96,23 @@ h3, h4, h5, h6
       border-color: rgba(255, 255, 255, 0.9)
       color: #3F51B5
 
-// Cycling animated words in the title block heading
-.block-title h2 > span
-  display: inline-block
-  height: 1em
-  overflow: hidden
-  perspective: 600px
-  vertical-align: bottom
+// Typewriter cursor in the hero title block
+.hero-typewriter
+  display: inline
 
-.block-title h2 > span > span
-  animation-delay: 2s
-  animation-duration: 9s
-  animation-iteration-count: infinite
-  animation-name: animate_words
-  display: inline-flex
-  flex-direction: column
+.hero-cursor
+  display: inline
+  margin-left: 1px
+  animation: cursor-blink 0.75s step-end infinite
 
-.block-title h2 i
-  font-style: normal
-  backface-visibility: hidden
-  text-align: left
+@keyframes cursor-blink
+  0%, 100%
+    opacity: 1
+  50%
+    opacity: 0
 
-@keyframes animate_words
-  0%
-    transform: translateY(0)
-  30%
-    transform: translateY(0)
-  33%
-    transform: translateY(-33.33%)
-  63%
-    transform: translateY(-33.33%)
-  66%
-    transform: translateY(-66.66%)
-  99%
-    transform: translateY(-66.66%)
-    animation-timing-function: step-end
-  100%
-    transform: translateY(0)
+.block-title.block-bg h2 strong
+  font-weight: 700
 
 // Non-hero title block: heading spans full container width (matches buckets below)
 .block-title:not(.block-bg) .heading
@@ -1453,6 +1433,25 @@ footer[role="contentinfo"]
   [class*="block-"] .footing .container
     text-align: center !important
     align-items: center !important
+
+  // Blocks without a .heading wrapper — center manually
+  .block-press-news .press-news-header
+    text-align: center !important
+    align-items: center !important
+
+  .block-press-news .press-news-header h2,
+  .block-press-news .press-news-see-all
+    margin-left: auto
+    margin-right: auto
+
+  .block-editorial .content
+    text-align: center !important
+    align-items: center !important
+
+  .block-editorial .content .surtitle,
+  .block-editorial .content h2,
+  .block-editorial .content .text
+    text-align: center !important
 
   // 5. Full-width sections — keep within viewport, no bleed
   .block-stories-carousel,

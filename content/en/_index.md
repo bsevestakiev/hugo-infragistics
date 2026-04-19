@@ -7,12 +7,14 @@ blocks:
   - type: title
     background: true
     heading:
-      title: "Create %s in the world one app at a time."
+      title: 'Create <strong>simplicity</strong> and <strong>beauty</strong> in the world one %s at a time.'
       text: "With the right tools, you can create amazing experiences for your users."
     cycling_words:
-      - "simplicity"
-      - "beauty"
-      - "innovation"
+      - "prototype"
+      - "data visualization"
+      - "app"
+      - "design"
+      - "project"
     ctas:
       - text: "Start Free Trial"
         url: "/trial/"

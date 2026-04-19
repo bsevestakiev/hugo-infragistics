@@ -1,15 +1,36 @@
 {{- $block := . -}}
 {{- $heading := .heading -}}
 {{- with .cycling_words -}}
-  {{- $words := . -}}
-  {{- $inner := "<span>" -}}
-  {{- range $words }}{{- $inner = printf "%s<i>%s</i>" $inner . -}}{{ end -}}
-  {{- with index $words 0 }}{{- $inner = printf "%s<i>%s</i>" $inner . -}}{{ end -}}
-  {{- $inner = printf "%s</span>" $inner -}}
-  {{- $span := printf "<span>%s</span>" $inner -}}
-  {{- $newTitle := replace $heading.title "%s" $span -}}
+  {{- $wordsJSON := . | jsonify -}}
+  {{- $typewriter := printf "<span class=\"hero-typewriter\" data-words='%s'></span><span class=\"hero-cursor\" aria-hidden=\"true\">|</span>" $wordsJSON -}}
+  {{- $newTitle := replace $heading.title "%s" $typewriter -}}
   {{- $heading = merge $heading (dict "title" $newTitle) -}}
 {{- end -}}
 <section class="block-title {{- with $block.background }} block-bg{{ end }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
   {{ partial "blocks/heading.html" (merge $block (dict "heading" $heading)) }}
 </section>
+{{- with .cycling_words -}}
+<script>
+(function () {
+  var el = document.querySelector('.hero-typewriter');
+  if (!el) return;
+  var words = JSON.parse(el.dataset.words);
+  var wi = 0, ci = 0, deleting = false;
+  function tick() {
+    var w = words[wi];
+    if (!deleting) {
+      ci++;
+      el.textContent = w.slice(0, ci);
+      if (ci === w.length) { deleting = true; setTimeout(tick, 1800); }
+      else { setTimeout(tick, 90); }
+    } else {
+      ci--;
+      el.textContent = w.slice(0, ci);
+      if (ci === 0) { deleting = false; wi = (wi + 1) % words.length; setTimeout(tick, 400); }
+      else { setTimeout(tick, 50); }
+    }
+  }
+  setTimeout(tick, 1000);
+})();
+</script>
+{{- end -}}
