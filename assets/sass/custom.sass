@@ -1525,18 +1525,28 @@ footer[role="contentinfo"]
 // =====================================================================
 
 .cookie-consent
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12)
+  background-color: #1E425A !important
+  border-radius: 12px !important
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25)
   max-width: 360px
   padding: 1.25rem 1.25rem 1rem
+  color: #ffffff
 
   @media (min-width: 768px)
     right: auto
+
+  p
+    color: rgba(255, 255, 255, 0.88)
+
+  a
+    color: rgba(255, 255, 255, 0.75) !important
+    text-decoration: underline
 
 .cookie-consent-title
   font-weight: 700
   font-size: 0.9375rem
   margin-bottom: 0.4rem
-  color: #1a1a2e
+  color: #ffffff
 
 .cookie-consent-actions
   display: flex
@@ -1545,23 +1555,23 @@ footer[role="contentinfo"]
   margin-top: 1rem
 
 .btn-cookie-accept
-  background-color: #3F51B5 !important
-  border-color: #3F51B5 !important
-  color: #ffffff !important
+  background-color: #ffffff !important
+  border-color: #ffffff !important
+  color: #1E425A !important
   font-size: 0.8125rem
+  font-weight: 600
   padding: 0.35rem 1rem
 
   &:hover
-    background-color: #3547a1 !important
-    border-color: #3547a1 !important
+    background-color: rgba(255, 255, 255, 0.9) !important
 
 .btn-cookie-refuse
   background: none !important
   border: none !important
-  color: #555555 !important
+  color: rgba(255, 255, 255, 0.75) !important
   font-size: 0.8125rem
   padding: 0
   text-decoration: underline
 
   &:hover
-    color: #1a1a2e !important
+    color: #ffffff !important
