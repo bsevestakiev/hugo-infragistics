@@ -9,8 +9,7 @@
   <div>
     {{- with $cookie_title }}<p class="cookie-consent-title">{{ . }}</p>{{- end }}
     <p id="cookie-consent-description">
-      {{- $cookie_text }}
-      <a href="{{ $cookie_page | safeURL }}"{{- if eq $cookie_page $cookie_page_default }} target="_blank" rel="noopener"{{ end }}> {{ i18n "more" }}</a>
+      {{- $cookie_text }} Please review our <a href="{{ $cookie_page | safeURL }}"{{- if eq $cookie_page $cookie_page_default }} target="_blank" rel="noopener"{{ end }}>cookie policy</a>.
     </p>
   </div>
   <div role="group" class="cookie-consent-actions">
