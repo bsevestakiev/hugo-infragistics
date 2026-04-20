@@ -5,6 +5,11 @@
 {{- $cookie_text := partial "func/PrepareHTML.html" (i18n "cookie_banner.text") -}}
 {{- $cookie_refuse := partial "func/PrepareHTML.html" (i18n "cookie_banner.refuse") -}}
 {{- $cookie_accept := partial "func/PrepareHTML.html" (i18n "cookie_banner.accept") -}}
+<script>
+(function(){
+  try { if(localStorage.getItem('cookie-consent')) document.write('<style>.js-cookie-consent{display:none!important}<\/style>'); } catch(e){}
+})();
+</script>
 <div class="cookie-consent js-cookie-consent show" tabindex="-1" role="dialog" aria-label="{{ $cookie_label }}" describedby="cookie-consent-description">
   <div>
     {{- with $cookie_title }}<p class="cookie-consent-title">{{ . }}</p>{{- end }}
@@ -13,7 +18,7 @@
     </p>
   </div>
   <div role="group" class="cookie-consent-actions">
-    <button type="button" class="btn btn-cookie-accept js-cookie-consent-accept">{{ $cookie_accept }}</button>
-    <button type="button" class="btn btn-cookie-refuse js-cookie-consent-refuse">{{ $cookie_refuse }}</button>
+    <button type="button" class="btn btn-cookie-accept js-cookie-consent-accept" onclick="try{localStorage.setItem('cookie-consent','true')}catch(e){}">{{ $cookie_accept }}</button>
+    <button type="button" class="btn btn-cookie-refuse js-cookie-consent-refuse" onclick="try{localStorage.setItem('cookie-consent','false')}catch(e){}">{{ $cookie_refuse }}</button>
   </div>
 </div>
