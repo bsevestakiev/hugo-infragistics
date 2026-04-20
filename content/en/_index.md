@@ -8,7 +8,6 @@ blocks:
     background: true
     heading:
       title: 'Create <strong>simplicity</strong> and <strong>beauty</strong> in the world one %s at a time.'
-      text: "With the right tools, you can create amazing experiences for your users."
     cycling_words:
       - "prototype"
       - "data visualization"
