@@ -12,7 +12,6 @@
         {{- range .items }}
         <li class="splide__slide story-slide">
           <div class="story-slide-inner">
-            <div class="container story-slide-container">
             <div class="story-slide-content">
               <h2>{{ .title }}</h2>
               {{- with .text }}<p>{{ . }}</p>{{ end }}
@@ -31,7 +30,6 @@
               {{- end -}}
             </div>
             {{- end }}
-            </div>
           </div>
         </li>
         {{- end }}
