@@ -1407,16 +1407,16 @@ footer[role="contentinfo"]
       object-fit: cover
       display: block
 
-  // Pagination dots — bottom-left inside blue panel
+  // Pagination dots — aligned with container content left edge
   .splide__pagination
     position: absolute
     bottom: 1.25rem
-    left: 3.5rem
+    left: max(3.5rem, calc((100vw - 1200px) / 2 + 3.5rem))
     justify-content: flex-start
     padding: 0
 
     @media (max-width: 991px)
-      left: 2.5rem
+      left: max(2.5rem, calc((100vw - 1200px) / 2 + 2.5rem))
 
     @media (max-width: 767px)
       left: 2rem
