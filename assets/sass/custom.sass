@@ -1326,8 +1326,7 @@ footer[role="contentinfo"]
   overflow: hidden
   margin: 0
   background: #3F51B5
-  // Reserve height before Splide JS sets it — prevents collapse during fade init
-  min-height: 400px
+  min-height: 520px
 
   @media (max-width: 767px)
     min-height: 0
@@ -1335,17 +1334,20 @@ footer[role="contentinfo"]
   .stories-splide
     position: relative
 
+  // Splide sets height on track via JS from config; slide must fill it
   .splide__slide
     height: 100%
 
+  // Positioning context — max-width contains content, background bleeds on section
   .story-slide-inner
     position: relative
-    height: 400px
+    height: 520px
+    max-width: 1200px
+    margin: 0 auto
     width: 100%
 
     @media (max-width: 767px)
-      height: auto
-      padding-bottom: 56.25%
+      height: 280px
 
   .story-slide-content
     position: relative
@@ -1353,7 +1355,7 @@ footer[role="contentinfo"]
     width: 45%
     height: 100%
     color: #ffffff
-    padding: 3rem 3.5rem 3rem unquote("max(1.5rem, calc((100vw - 1200px) / 2 + 1.5rem))")
+    padding: 3rem 3.5rem
     display: flex
     flex-direction: column
     justify-content: center
@@ -1361,16 +1363,12 @@ footer[role="contentinfo"]
 
     @media (max-width: 991px)
       width: 55%
-      padding: 2rem 2.5rem
+      padding: 2rem
 
     @media (max-width: 767px)
-      position: absolute
-      top: 0
-      left: 0
       width: 100%
-      height: 100%
-      padding: 2rem
-      background: rgba(63, 81, 181, 0.7)
+      background: rgba(63, 81, 181, 0.75)
+      padding: 1.5rem
 
     h2
       font-size: 1.5rem
@@ -1396,6 +1394,7 @@ footer[role="contentinfo"]
     &:hover
       color: rgba(255, 255, 255, 0.8)
 
+  // Image fills right portion of the max-width container, not the full viewport
   .story-slide-image
     position: absolute
     top: 0
@@ -1409,9 +1408,6 @@ footer[role="contentinfo"]
 
     @media (max-width: 767px)
       left: 0
-      right: 0
-      top: 0
-      bottom: 0
 
     img
       position: absolute
@@ -1421,11 +1417,11 @@ footer[role="contentinfo"]
       object-fit: cover
       display: block
 
-  // Pagination dots — aligned with container content left edge
+  // Pagination dots aligned with content left edge
   .splide__pagination
     position: absolute
     bottom: 1.25rem
-    left: unquote("max(3.5rem, calc((100vw - 1200px) / 2 + 3.5rem))")
+    left: 3.5rem
     justify-content: flex-start
     padding: 0
 
