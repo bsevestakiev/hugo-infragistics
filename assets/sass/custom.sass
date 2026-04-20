@@ -61,6 +61,12 @@ h3, h4, h5, h6
 // Top webinar banner — green with navy accent
 // =====================================================================
 
+// Sticky wrapper for banner + topbar + nav
+.site-header-sticky
+  position: sticky
+  top: 0
+  z-index: 1030
+
 .banner
   position: relative
 
@@ -300,9 +306,13 @@ header[role="banner"] > nav
   padding-top: 0.25rem !important
   padding-bottom: 0.25rem !important
 
-// Always-visible sticky nav — disable theme's hide-on-scroll-down behavior
+// Theme makes header sticky — wrapper handles it now, keep header in flow
+header[role="banner"]
+  position: relative !important
+  top: auto !important
+
 html.is-scrolling-down header[role="banner"]
-  top: 0 !important
+  top: auto !important
 
 main
   padding-top: 0 !important
