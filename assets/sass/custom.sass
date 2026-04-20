@@ -1335,8 +1335,14 @@ footer[role="contentinfo"]
     position: relative
 
   .story-slide-inner
-    display: flex
     height: 400px
+
+    @media (max-width: 767px)
+      height: auto
+
+  .story-slide-container
+    display: flex
+    height: 100%
 
     @media (max-width: 767px)
       flex-direction: column

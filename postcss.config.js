@@ -39,7 +39,8 @@ module.exports = {
             'js-cookie-consent-refuse',
             'js-banner',
             'js-banner-close',
-            'site-header-sticky'
+            'site-header-sticky',
+            'story-slide-container'
           ],
           deep: [/^tobii/]
         },
