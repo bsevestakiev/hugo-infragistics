@@ -27,7 +27,8 @@ module.exports = {
             /^splide_/,
             /^mega-item--/,
             'offcanvas-header-custom',
-            'btn-close-offcanvas'
+            'btn-close-offcanvas',
+            'offcanvas-sales-bar'
           ],
           deep: [/^tobii/]
         },
