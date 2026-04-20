@@ -1411,12 +1411,12 @@ footer[role="contentinfo"]
   .splide__pagination
     position: absolute
     bottom: 1.25rem
-    left: #{max(3.5rem, calc((100vw - 1200px) / 2 + 3.5rem))}
+    left: unquote("max(3.5rem, calc((100vw - 1200px) / 2 + 3.5rem))")
     justify-content: flex-start
     padding: 0
 
     @media (max-width: 991px)
-      left: #{max(2.5rem, calc((100vw - 1200px) / 2 + 2.5rem))}
+      left: unquote("max(2.5rem, calc((100vw - 1200px) / 2 + 2.5rem))")
 
     @media (max-width: 767px)
       left: 2rem
