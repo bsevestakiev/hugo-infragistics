@@ -3,6 +3,7 @@
 {{- with .Site.Data.banner -}}
   {{- $state := false -}}
   {{- $text := false -}}
+  {{- $version := .version | default "v1" -}}
   {{- with .text -}}
     {{- $text = . -}}
   {{- end -}}
@@ -21,15 +22,30 @@
   {{- end -}}
 
   {{- with $text }}
-    <div class="banner {{- with $state }} banner-{{ . }}{{ end }} alert-dismissible" role="alert">
+    <div class="banner {{- with $state }} banner-{{ . }}{{ end }} alert-dismissible js-banner" role="alert" data-banner-version="{{ $version }}">
       <div class="container">
         <p>{{ partial "func/PrepareHTML.html" . | markdownify }}</p>
       </div>
-      <button type="button" class="banner-close" data-bs-dismiss="alert" aria-label="Close">
+      <button type="button" class="banner-close js-banner-close" aria-label="Close">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
         </svg>
       </button>
     </div>
+    <script>
+    (function () {
+      var el = document.querySelector('.js-banner');
+      if (!el) return;
+      var key = 'banner-dismissed-' + el.dataset.bannerVersion;
+      if (localStorage.getItem(key)) {
+        el.style.display = 'none';
+        return;
+      }
+      el.querySelector('.js-banner-close').addEventListener('click', function () {
+        localStorage.setItem(key, '1');
+        el.style.display = 'none';
+      });
+    })();
+    </script>
   {{ end -}}
 {{- end -}}

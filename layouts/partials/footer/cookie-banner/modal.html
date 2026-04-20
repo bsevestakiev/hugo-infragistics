@@ -1,0 +1,20 @@
+{{- $cookie_page_default := "https://gdpr.eu/cookies/" -}}
+{{- $cookie_page := site.Params.cookie_banner.page | default $cookie_page_default -}}
+{{- $cookie_label := partial "func/PrepareHTML.html" (i18n "cookie_banner.label") -}}
+{{- $cookie_title := i18n "cookie_banner.title" -}}
+{{- $cookie_text := partial "func/PrepareHTML.html" (i18n "cookie_banner.text") -}}
+{{- $cookie_refuse := partial "func/PrepareHTML.html" (i18n "cookie_banner.refuse") -}}
+{{- $cookie_accept := partial "func/PrepareHTML.html" (i18n "cookie_banner.accept") -}}
+<div class="cookie-consent js-cookie-consent show" tabindex="-1" role="dialog" aria-label="{{ $cookie_label }}" describedby="cookie-consent-description">
+  <div>
+    {{- with $cookie_title }}<p class="cookie-consent-title">{{ . }}</p>{{- end }}
+    <p id="cookie-consent-description">
+      {{- $cookie_text }}
+      <a href="{{ $cookie_page | safeURL }}"{{- if eq $cookie_page $cookie_page_default }} target="_blank" rel="noopener"{{ end }}> {{ i18n "more" }}</a>
+    </p>
+  </div>
+  <div role="group" class="cookie-consent-actions">
+    <button type="button" class="btn btn-cookie-accept js-cookie-consent-accept">{{ $cookie_accept }}</button>
+    <button type="button" class="btn btn-cookie-refuse js-cookie-consent-refuse">{{ $cookie_refuse }}</button>
+  </div>
+</div>

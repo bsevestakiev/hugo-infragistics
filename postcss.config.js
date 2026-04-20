@@ -28,7 +28,17 @@ module.exports = {
             /^mega-item--/,
             'offcanvas-header-custom',
             'btn-close-offcanvas',
-            'offcanvas-sales-bar'
+            'offcanvas-sales-bar',
+            'cookie-consent',
+            'cookie-consent-title',
+            'cookie-consent-actions',
+            'btn-cookie-accept',
+            'btn-cookie-refuse',
+            'js-cookie-consent',
+            'js-cookie-consent-accept',
+            'js-cookie-consent-refuse',
+            'js-banner',
+            'js-banner-close'
           ],
           deep: [/^tobii/]
         },

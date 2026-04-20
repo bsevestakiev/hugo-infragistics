@@ -36,7 +36,17 @@ h2
 h3, h4, h5, h6
   font-weight: 400
 
-// Slightly larger headings on desktop
+// Heading scale — mobile uses explicit sizes to prevent Bootstrap fluid collapse
+@media (max-width: 991px)
+  h1
+    font-size: 1.75rem
+  h2
+    font-size: 1.5rem
+  h3
+    font-size: 1.25rem
+  h4
+    font-size: 1.05rem
+
 @media (min-width: 992px)
   h1
     font-size: 2.4rem
@@ -1499,3 +1509,49 @@ footer[role="contentinfo"]
     margin-left: 0 !important
     margin-right: 0 !important
     overflow: hidden
+
+// =====================================================================
+// Cookie consent banner
+// =====================================================================
+
+.cookie-consent
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12)
+  max-width: 360px
+  padding: 1.25rem 1.25rem 1rem
+
+  @media (min-width: 768px)
+    right: auto
+
+.cookie-consent-title
+  font-weight: 700
+  font-size: 0.9375rem
+  margin-bottom: 0.4rem
+  color: #1a1a2e
+
+.cookie-consent-actions
+  display: flex
+  align-items: center
+  gap: 1rem
+  margin-top: 1rem
+
+.btn-cookie-accept
+  background-color: #3F51B5 !important
+  border-color: #3F51B5 !important
+  color: #ffffff !important
+  font-size: 0.8125rem
+  padding: 0.35rem 1rem
+
+  &:hover
+    background-color: #3547a1 !important
+    border-color: #3547a1 !important
+
+.btn-cookie-refuse
+  background: none !important
+  border: none !important
+  color: #555555 !important
+  font-size: 0.8125rem
+  padding: 0
+  text-decoration: underline
+
+  &:hover
+    color: #1a1a2e !important
