@@ -1,9 +1,8 @@
 _merge: deep
 
-params:
-  languageSwitcher: true
-  logo:
-    header: /assets/images/logo.svg
-  cookie_banner:
-    enable: true
-    page: /privacy-policy/
+languageSwitcher: true
+logo:
+  header: /assets/images/logo.svg
+cookie_banner:
+  enable: true
+  page: /privacy-policy/
