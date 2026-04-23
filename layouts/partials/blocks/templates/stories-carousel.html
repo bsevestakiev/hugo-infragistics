@@ -1,4 +1,4 @@
-{{- $carousel_params := dict "type" "fade" "rewind" true "autoplay" true "interval" 6000 "pauseOnHover" true "arrows" false "height" "520px" "breakpoints" (dict "767" (dict "height" "auto")) -}}
+{{- $carousel_params := dict "type" "fade" "rewind" true "autoplay" true "interval" 6000 "pauseOnHover" true "arrows" false "height" "520px" "breakpoints" (dict "991" (dict "height" "auto")) -}}
 {{- with .carousel -}}
   {{- with .params -}}
     {{- $carousel_params = merge $carousel_params . -}}
@@ -11,27 +11,25 @@
       <ul class="splide__list">
         {{- range .items }}
         <li class="splide__slide story-slide">
-          <div class="container-xl h-100">
-            <div class="row h-100 align-items-stretch g-0">
-              <div class="col-lg-5 col-12 story-slide-content d-flex flex-column justify-content-center gap-3">
-                <h2>{{ .title }}</h2>
-                {{- with .text }}<p>{{ . }}</p>{{ end }}
-                {{- with .cta }}
-                <a href="{{ .url }}" class="story-cta">{{ .text }}</a>
-                {{- end }}
-              </div>
-              {{- with .image }}
-              <div class="col-lg-7 col-12 story-slide-image">
-                {{- $img := resources.Get .src -}}
-                {{- if $img -}}
-                  {{- $img = $img.Resize "1000x webp" -}}
-                  <img src="{{ $img.RelPermalink }}" width="{{ $img.Width }}" height="{{ $img.Height }}" alt="{{ .alt }}">
-                {{- else -}}
-                  <img src="{{ .src | relURL }}" alt="{{ .alt }}">
-                {{- end -}}
-              </div>
+          <div class="story-slide-row">
+            <div class="story-slide-content">
+              <h2>{{ .title }}</h2>
+              {{- with .text }}<p>{{ . }}</p>{{ end }}
+              {{- with .cta }}
+              <a href="{{ .url }}" class="story-cta">{{ .text }}</a>
               {{- end }}
             </div>
+            {{- with .image }}
+            <div class="story-slide-image">
+              {{- $img := resources.Get .src -}}
+              {{- if $img -}}
+                {{- $img = $img.Resize "1000x webp" -}}
+                <img src="{{ $img.RelPermalink }}" alt="{{ .alt }}">
+              {{- else -}}
+                <img src="{{ .src | relURL }}" alt="{{ .alt }}">
+              {{- end -}}
+            </div>
+            {{- end }}
           </div>
         </li>
         {{- end }}
