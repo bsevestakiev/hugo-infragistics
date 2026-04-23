@@ -60,18 +60,21 @@
     return window.innerWidth < 992;
   }
 
-  // ── Desktop: aria tracks CSS :hover; JS only sets coordinates ────────────
+  // ── Desktop: hover open / delayed close to prevent flicker ──────────────
+
+  var closeTimer = null;
 
   items.forEach(function (item) {
     item.addEventListener('mouseenter', function () {
       if (isMobile()) return;
+      clearTimeout(closeTimer);
       items.forEach(function (other) { if (other !== item) closeItem(other); });
       openItem(item);
     });
 
     item.addEventListener('mouseleave', function () {
       if (isMobile()) return;
-      closeItem(item);
+      closeTimer = setTimeout(function () { closeItem(item); }, 400);
     });
   });
 

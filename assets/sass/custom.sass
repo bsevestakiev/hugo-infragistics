@@ -424,6 +424,19 @@ $nav-height: 56px
     visibility: visible
     pointer-events: auto
 
+  // Gray from viewport left to bundle column right — pure CSS, no JS
+  // calc(-50vw + 50%) pulls the left edge to the viewport's left edge
+  // calc(50vw - 50% + 352px) = container-margin + 12px padding + 340px column
+  .mega-inner::before
+    content: ''
+    position: absolute
+    top: -1.5rem
+    bottom: -1.5rem
+    left: calc(-50vw + 50%)
+    width: calc(50vw - 50% + 352px)
+    background: $mega-bundle-panel-bg
+    z-index: -1
+
 /// Mobile: JS class toggles panel via display (not visibility — static elements
 // with visibility:hidden still occupy space and create gaps in the menu)
 @media (max-width: 991px)
@@ -437,6 +450,7 @@ $nav-height: 56px
   position: fixed
   left: 0
   right: 0
+  margin-top: -2px
   background: $mega-bg
   border-top: 1px solid $mega-border
   border-bottom: 1px solid $mega-border
@@ -448,21 +462,23 @@ $nav-height: 56px
 
 .mega-inner
   display: grid
-  grid-template-columns: minmax(200px, 1fr) 1.4fr 1fr 1fr
-  align-items: start
+  grid-template-columns: 340px 1.5fr 1fr 1.1fr
+  align-items: stretch
+  position: relative
 
 .mega-group
   padding: 1.25rem 1rem
 
-// Bundle: column 1, spans all rows
+// Bundle: column 1, spans all rows — panel background extends gray to left/bottom edges
 .mega-group--bundle
   grid-column: 1
   grid-row: 1 / span 3
   background: $mega-bundle-panel-bg
   border-radius: 0
-  padding: 1.25rem 1.25rem 1rem
+  padding: 1.5rem 1rem 1.25rem
   border-right: 1px solid $mega-border
   align-self: stretch
+  position: relative
 
 // Web: column 2, full height, right border
 .mega-group:nth-child(2)
@@ -501,22 +517,45 @@ $nav-height: 56px
   padding-bottom: 0
   border-bottom: none
 
+// "BEST VALUE BUNDLES" sits centered on the top border of the white box
 .mega-group--bundle .mega-group-heading
+  position: absolute
+  top: 1.5rem
+  left: 50%
+  transform: translate(-50%, -50%)
+  z-index: 2
   display: inline-block
-  background: #555555
+  background: #6b7280
   color: #ffffff
-  font-size: 0.65rem
-  letter-spacing: 0.06em
+  font-size: 0.62rem
+  font-weight: 700
+  letter-spacing: 0.07em
   text-transform: uppercase
-  padding: 0.2rem 0.5rem
+  padding: 0.18rem 0.55rem
   border-radius: 3px
+  white-space: nowrap
   border-bottom: none
-  margin-bottom: 0.75rem
+  margin-bottom: 0
 
 .mega-group-list
   list-style: none
   padding: 0
   margin: 0
+
+// Bundle list = the white box; items separated by thin rules
+.mega-group--bundle .mega-group-list
+  background: #ffffff
+  border: 1px solid #e0e0e0
+  border-radius: 6px
+  overflow: hidden
+  padding: 0.5rem 0
+
+.mega-group--bundle .mega-item
+  border-bottom: 1px solid #ebebeb
+  margin: 0 0.75rem
+
+.mega-group--bundle .mega-item:last-child
+  border-bottom: none
 
 .mega-link
   display: flex
@@ -550,13 +589,19 @@ $nav-height: 56px
   font-size: 0.72rem
   font-weight: 700
   color: #ffffff
-  background: #1a2d5a
-  border-radius: 3px
+  background: #e05a00
+  border-radius: 2px
   padding: 0.15rem 0.5rem
   white-space: nowrap
 
-.mega-group--bundle .mega-item:last-child .mega-price
-  background: #e07b00
+.mega-price--light-blue
+  background: #4991c5
+
+.mega-price--dark-blue
+  background: #004677
+
+.mega-price--orange
+  background: #f59122
 
 .mega-item--indented .mega-link-title
   padding-left: 0.75rem
@@ -575,48 +620,58 @@ $nav-height: 56px
   display: inline-block
   background: $mega-badge-bg
   color: #ffffff
-  font-size: 0.65rem
+  font-size: 0.58rem
   font-weight: 700
-  letter-spacing: 0.04em
+  letter-spacing: 0.05em
   text-transform: uppercase
-  padding: 0.1rem 0.4rem
+  padding: 0.05rem 0.28rem
   border-radius: 3px
   vertical-align: middle
 
-// Bundle items: card style — grid layout with price on the right
+// Bundle items: grid — title+desc left, price block right spanning both rows
 .mega-group--bundle .mega-link
-  display: grid
-  grid-template-columns: 1fr auto
+  display: grid !important
+  grid-template-columns: 1fr 62px
   grid-template-rows: auto auto
-  align-items: center
-  background: $mega-bundle-bg
-  border: 1px solid $mega-bundle-border
-  padding: 0.5rem 0.65rem
+  column-gap: 0.75rem
+  background: #ffffff
+  border: none
+  border-radius: 0
+  padding: 2rem 1.25rem
+  margin-bottom: 0
+
+  &:hover
+    background: #f5f7fa
 
 .mega-group--bundle .mega-link-title
   grid-column: 1
   grid-row: 1
-  font-size: 0.875rem
-  font-weight: 600
-  align-self: center
+  font-size: 0.9rem
+  font-weight: 700
+  color: #1a1a2e
 
 .mega-group--bundle .mega-price
   grid-column: 2
-  grid-row: 1
-  margin-top: 0
+  grid-row: 1 / span 2
   align-self: center
+  display: flex
+  align-items: center
+  justify-content: center
+  border-radius: 4px
+  font-size: 0.85rem
+  font-weight: 700
+  padding: 0.75rem 0.35rem
+  white-space: nowrap
 
 .mega-group--bundle .mega-desc
-  grid-column: 1 / -1
+  grid-column: 1
   grid-row: 2
-  color: $mega-desc-color !important
-  margin-top: 0.3rem
-  margin-bottom: 0.4rem
-  border-radius: 6px
-
-  &:hover
-    background: #e8edf5
-    border-color: #c5cfe0
+  display: block
+  overflow: visible
+  font-size: 0.78rem
+  color: $mega-desc-color
+  line-height: 1.4
+  margin-top: 0.25rem
 
 // ── Simple dropdown panel ─────────────────────────────────────────────
 
@@ -790,6 +845,9 @@ $nav-height: 56px
     flex-direction: column
     gap: 0
 
+  .mega-inner::before
+    display: none
+
   .mega-group,
   .mega-group:nth-child(n)
     grid-column: unset
@@ -806,10 +864,12 @@ $nav-height: 56px
   // Bundle cards: no card style on mobile — title left, price right, no description
   .mega-group--bundle .mega-link
     display: flex
+    flex-direction: row
     align-items: center
     gap: 0.5rem
     background: none
     border: none
+    border-radius: 0
     padding: 0.35rem 0.5rem
     margin-bottom: 0
 
@@ -819,9 +879,14 @@ $nav-height: 56px
     grid-row: unset
 
   .mega-group--bundle .mega-price
+    display: inline-block
     flex-shrink: 0
+    align-self: center
     grid-column: unset
     grid-row: unset
+    padding: 0.15rem 0.5rem
+    font-size: 0.72rem
+    border-radius: 2px
 
   .mega-group--bundle .mega-desc
     display: none

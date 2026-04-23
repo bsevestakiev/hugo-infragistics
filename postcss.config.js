@@ -26,6 +26,7 @@ module.exports = {
             /^is-/,
             /^splide_/,
             /^mega-item--/,
+            /^mega-price--/,
             'offcanvas-header-custom',
             'btn-close-offcanvas',
             'offcanvas-sales-bar',

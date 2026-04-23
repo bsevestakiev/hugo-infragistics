@@ -24,6 +24,7 @@
         {{- end }}
 
         {{- if $hasMega }}
+          {{- with .tooltip }}<span class="mega-label">{{ . }}</span>{{- end }}
           <div class="mega-panel" role="region" aria-hidden="true">
             <div class="mega-inner container">
               {{- range .groups }}
@@ -37,7 +38,7 @@
                             {{ .title }}
                             {{- with .badge }}<span class="mega-badge">{{ . }}</span>{{ end }}
                           </span>
-                          {{- with .price }}<span class="mega-price">{{ . }}</span>{{ end }}
+                          {{- if .price }}<span class="mega-price{{ with .price_color }} mega-price--{{ . }}{{ end }}">{{ .price }}</span>{{ end }}
                           {{- with .description }}<span class="mega-desc">{{ . }}</span>{{ end }}
                         </a>
                       </li>
